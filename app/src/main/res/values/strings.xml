@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">iStore</string>
+    <string name="sure_text_pop">Are you sure ?</string>
+    <string name="pop_no_btn">No</string>
+    <string name="pop_yes_btn">Yes</string>
+    <string name="update_item">Update Item</string>
+    <string name="item_expiry_date_popup">Item Expiry Date</string>
+    <string name="item_quantity_popup">Item Quantity</string>
+    <string name="item_name_popup">Item Name</string>
+    <string name="btn_update_item_pop">Update Item</string>
+    <string name="item_name">Item_Name</string>
+</resources>

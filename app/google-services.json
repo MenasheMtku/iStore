@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1014090243385",
+    "firebase_url": "https://istore-af87b.firebaseio.com",
+    "project_id": "istore-af87b",
+    "storage_bucket": "istore-af87b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014090243385:android:aa779b070424c76f619ce8",
+        "android_client_info": {
+          "package_name": "com.example.istore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014090243385-c3rn7m8aknhfp86hq8jgpjvcc5io0de5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.istore",
+            "certificate_hash": "4c6445a55cf2835178afcc76470801292bbbdf4f"
+          }
+        },
+        {
+          "client_id": "1014090243385-jnofou1km1ro13eucjf8uu08pftfqf36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx_QlT8dFJ2fuv7Ji99ofClcy3e51QdR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014090243385-jnofou1km1ro13eucjf8uu08pftfqf36.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
