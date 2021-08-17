@@ -49,7 +49,7 @@ public class AddProduct extends AppCompatActivity {
     // Progress Dialog
     ProgressDialog pd;
 
-    Calendar c;
+    Calendar cal;
     DatePickerDialog datePicker;
     String pId, pName, pQuantity,pExpiry;
 
@@ -103,17 +103,15 @@ public class AddProduct extends AppCompatActivity {
         }
         pd = new ProgressDialog(this);
 
-
-
         //choose date
         itemExpriedDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                c = Calendar.getInstance();
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                int month = c.get(Calendar.MONTH);
-                int year = c.get(Calendar.YEAR);
+                cal = Calendar.getInstance();
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int month = cal.get(Calendar.MONTH);
+                int year = cal.get(Calendar.YEAR);
 
                 datePicker = new DatePickerDialog(AddProduct.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -194,35 +192,6 @@ public class AddProduct extends AppCompatActivity {
 
     }
 
-//    private void updateDOC(String docID,String docName, String docQty,String docExp) {
-//        pd.setTitle("Updating Doc..");
-//        pd.show();
-//        DocumentReference docRef = FirebaseFirestore.getInstance()
-//                                        .collection("Products")
-//                                        .document(docID);
-//
-//        Map <String, Object> map = new HashMap<>();
-//        map.put("name", docName);
-//        map.put("qty", docQty);
-//        map.put("expiry", docExp);
-//
-//        docRef.update(map)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        pd.dismiss();
-//                        Log.i( "OnSuccess: ","Doc updated successfully");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        pd.dismiss();
-//                        Log.i( "OnFalliure: ","Doc failed to update");
-//                    }
-//                });
-//    }
-
     private void uploadData(String name, String qty, String expiry) {
         pd.setTitle("Adding To Firebase");
         pd.show();
@@ -243,20 +212,23 @@ public class AddProduct extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         pd.dismiss();
-                        Toast.makeText(AddProduct.this,
-                                "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        itemName.setText("");
+                        itemName.setFocusable(true);
+                        itemQuantity.setText("");
+                        itemExpriedDate.setText("");
+                        Toast.makeText(AddProduct.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(AddProduct.this,
-                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
+
     private void setupFloatingLabelError() {
         final TextInputLayout floatingUsernameLabel = (TextInputLayout) findViewById(R.id.pName_text_input_layout);
         Objects.requireNonNull(floatingUsernameLabel.getEditText()).addTextChangedListener(new TextWatcher() {

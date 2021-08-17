@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:padding="16dp"
+    android:padding="48dp"
     android:background="@drawable/boat_background"
     >
 
@@ -23,24 +23,25 @@
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=" Name"
                     android:drawableLeft="@drawable/ic_user_name"
+                    android:hint=" Name"
                     android:inputType="textPersonName"
-                    />
+                    android:minHeight="48dp" />
 
                 <EditText
                     android:id="@+id/etPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=" Password"
                     android:drawableLeft="@drawable/ic_user_password"
-                    android:inputType="textPassword" />
+                    android:hint=" Password"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp" />
                 <Button
                     android:id="@+id/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="check"
-                    android:text="Login"
+                    android:text="L o g i n"
                     android:textSize="20sp"
                     android:layout_marginTop="15dp"
                     android:textAllCaps="false"
