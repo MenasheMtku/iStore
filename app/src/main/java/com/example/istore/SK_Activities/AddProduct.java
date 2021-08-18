@@ -1,15 +1,12 @@
 package com.example.istore.SK_Activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import static android.graphics.Color.*;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.icu.util.Calendar;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,16 +18,18 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.istore.Model.Prod;
 import com.example.istore.R;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -60,9 +59,6 @@ public class AddProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-//        ActionBar actionBar = getSupportActionBar();
-
-
         //firestore
         db = FirebaseFirestore.getInstance();
         dbReference = db.collection("Products");
@@ -76,12 +72,13 @@ public class AddProduct extends AppCompatActivity {
         saveItem = (Button) findViewById(R.id.saveBtn);
         clearFields = (Button) findViewById(R.id.clearBtn);
 
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             //update data
 //            actionBar.setTitle("Update Product");
-            saveItem.setText("Update Data");
-            saveItem.setTextColor(Color.BLUE);
+            saveItem.setText("U p d a t e");
+            saveItem.setTextColor(BLUE);
             // get data
             pId = bundle.getString("pId");
             pName = bundle.getString("pName");
@@ -91,14 +88,12 @@ public class AddProduct extends AppCompatActivity {
             itemName.setText(pName);
             itemQuantity.setText(pQuantity);
             itemExpriedDate.setText(pExpiry);
-            Log.i("pID:", pId);
-            //Log.i("pSearch:", pSearch);
+
         }
         else{
-//            actionBar.setTitle("Add Product");
             // new data
             saveItem.setText("S a v e");
-            // saveItem.setTextColor(Color.GREEN);
+            //saveItem.setTextColor(GREEN);
 
         }
         pd = new ProgressDialog(this);
@@ -113,15 +108,21 @@ public class AddProduct extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int year = cal.get(Calendar.YEAR);
 
+
                 datePicker = new DatePickerDialog(AddProduct.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
 
-                        itemExpriedDate.setText(mDay + "/" + (mMonth + 1) + "/" + mYear);
+                        itemExpriedDate.setText(mDay + " - " + (mMonth + 1) + " - " + mYear);
+                        Log.i("Date Picked: ", mDay+" - "+(mMonth+1)+" - "+mYear);
                     }
                 }, day, month, year);
+
+
+                datePicker.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
                 datePicker.show();
             }
+
         });
 
         saveItem.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +138,7 @@ public class AddProduct extends AppCompatActivity {
                     String expiry  = itemExpriedDate.getText().toString().trim();
 
                     //  funct call update data
-                    updateData(id, name,quntity,expiry);
+                    editData(id, name,quntity,expiry);
 
                 }
                 else{
@@ -167,29 +168,6 @@ public class AddProduct extends AppCompatActivity {
                 itemExpriedDate.setText("");
             }
         });
-    }
-
-    private void updateData(String id, String name, String quantity, String expiry) {
-        pd.setTitle("Updating Data...");
-        pd.show();
-
-        db.collection("Products").document(id)
-                .update("name", name, "expiry",expiry,"qty",quantity)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                       pd.dismiss();
-                        Toast.makeText(AddProduct.this, "Updated...", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { 
-                        pd.dismiss();
-                        Toast.makeText(AddProduct.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
     }
 
     private void uploadData(String name, String qty, String expiry) {
@@ -229,29 +207,53 @@ public class AddProduct extends AppCompatActivity {
 
     }
 
-    private void setupFloatingLabelError() {
-        final TextInputLayout floatingUsernameLabel = (TextInputLayout) findViewById(R.id.pName_text_input_layout);
-        Objects.requireNonNull(floatingUsernameLabel.getEditText()).addTextChangedListener(new TextWatcher() {
-            // ...
-            @Override
-            public void onTextChanged(CharSequence text, int start, int count, int after) {
-                if (text.length() > 0 && text.length() <= 4) {
-                    floatingUsernameLabel.setError(getString(R.string.item_name));
-                    floatingUsernameLabel.setErrorEnabled(true);
-                } else {
-                    floatingUsernameLabel.setErrorEnabled(false);
-                }
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-            }
+    private void editData(String id, String name, String quantity, String expiry) {
+        pd.setTitle("Updating Data...");
+        pd.show();
 
-            @Override
-            public void afterTextChanged(Editable s) {
+        db.collection("Products").document(id)
+                .update("name", name, "expiry",expiry,"qty",quantity)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                       pd.dismiss();
+                        Toast.makeText(AddProduct.this, "Updated...", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) { 
+                        pd.dismiss();
+                        Toast.makeText(AddProduct.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            }
-        });
     }
+
+
+//    private void setupFloatingLabelError() {
+//        final TextInputLayout floatingUsernameLabel = (TextInputLayout) findViewById(R.id.pName_text_input_layout);
+//        Objects.requireNonNull(floatingUsernameLabel.getEditText()).addTextChangedListener(new TextWatcher() {
+//            // ...
+//            @Override
+//            public void onTextChanged(CharSequence text, int start, int count, int after) {
+//                if (text.length() > 0 && text.length() <= 4) {
+//                    floatingUsernameLabel.setError(getString(R.string.item_name));
+//                    floatingUsernameLabel.setErrorEnabled(true);
+//                } else {
+//                    floatingUsernameLabel.setErrorEnabled(false);
+//                }
+//            }
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count,
+//                                          int after) {
+//                // TODO Auto-generated method stub
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+//    }
 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar_sk_id"
-        android:background="#EFB5FA"
+        android:background="#7FDCD3"
         app:title="Storekeeper Menu"
         app:titleTextColor="@android:color/black"
         app:titleMarginStart="35dp"

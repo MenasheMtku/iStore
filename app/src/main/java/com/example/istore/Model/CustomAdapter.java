@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.istore.SK_Activities.AddProduct;
 import com.example.istore.R;
 import com.example.istore.Viewstock;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -44,7 +45,9 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
                 String tQty = prodList.get(position).getQuantity();
                 String tExp = prodList.get(position).getExpiry();
 
-                Toast.makeText(viewstock, tName+"   "+tQty+"\n"+ tExp,Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(view, tQty+ " | " +tName+" | "+ tExp, Snackbar.LENGTH_LONG);
+                snackbar.show();
+//                Toast.makeText(viewstock, tName+"   "+tQty+"\n"+ tExp,Toast.LENGTH_SHORT).show();
             }
 
             @Override

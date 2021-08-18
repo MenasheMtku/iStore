@@ -1,9 +1,12 @@
 package com.example.istore;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,9 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.istore.Model.CustomAdapter;
 import com.example.istore.Model.Prod;
+import com.example.istore.SK_Activities.AddProduct;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,6 +43,7 @@ public class Viewstock extends AppCompatActivity {
 
     CustomAdapter adapter;
     ProgressDialog pd;
+    FloatingActionButton floatingActionButton;
 
 
     @Override
@@ -55,11 +61,20 @@ public class Viewstock extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
 
         pd = new ProgressDialog(this);
 
         // display recyclerView
         showData();
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Viewstock.this, AddProduct.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void showData() {
