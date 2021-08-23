@@ -16,60 +16,44 @@
         android:orientation="vertical"
         android:paddingTop="100dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pName_text_input_layout"
+
+        <EditText
+            android:id="@+id/etName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/custome_card"
+            android:hint="Item Name"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Item Name"
-                android:inputType="text"
-                android:padding="20dp"
-                android:textAlignment="center"
-                android:textSize="18sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pQty_text_input_layout"
+        <EditText
+            android:id="@+id/etQuantity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custome_card"
+            android:hint="Quantity"
+            android:inputType="number"
+            android:padding="20dp"
+            android:textAlignment="center"
+            android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/etQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:hint="Quantity"
-                android:inputType="number"
-                android:padding="20dp"
-                android:textAlignment="center"
-                android:textSize="18sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pExp_text_input_layout"
+        <EditText
+            android:id="@+id/etExpiredDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/etExpiredDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:hint="Expiry date"
-                android:inputType="date"
-                android:padding="20dp"
-                android:textAlignment="center"
-                android:focusable="false"
-                android:textSize="18dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/custome_card"
+            android:focusable="false"
+            android:hint="Expiry date"
+            android:inputType="date"
+            android:padding="20dp"
+            android:textAlignment="center"
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/saveBtn"

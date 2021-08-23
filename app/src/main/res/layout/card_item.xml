@@ -6,12 +6,14 @@
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    app:cardBackgroundColor="#FFFFE8"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="10.5dp"
+    app:cardBackgroundColor="#FFFEEE"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/custome_card"
         android:padding="8dp">
 
         <TextView

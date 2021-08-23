@@ -9,4 +9,5 @@
     <string name="item_name_popup">Item Name</string>
     <string name="btn_update_item_pop">Update Item</string>
     <string name="item_name">Item_Name</string>
+    <string name="ProductUploaded">Uploaded Successfully</string>
 </resources>

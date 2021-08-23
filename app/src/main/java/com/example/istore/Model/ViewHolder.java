@@ -13,7 +13,6 @@ import com.example.istore.R;
 public class ViewHolder extends RecyclerView.ViewHolder {
 
     TextView pName, pQty, pExp;
-    //ImageButton sendItemImageButton;
     View mView;
 
     public ViewHolder(@NonNull View itemView) {

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     EditText etName, etPass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,23 @@ public class MainActivity extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.etName);
         etPass = (EditText) findViewById(R.id.etPass);
+
+        /* Remove Hint when people tap on UserName box
+        etPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etPass.setHint("");
+
+            }
+        });
+        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                etName.setHint("");
+            }
+        });
+        */
+
     }
 
     public void check(View view) {
@@ -47,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+
 
     public void showMessage(String title, String Message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

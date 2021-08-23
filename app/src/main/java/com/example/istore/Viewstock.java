@@ -45,6 +45,12 @@ public class Viewstock extends AppCompatActivity {
     ProgressDialog pd;
     FloatingActionButton floatingActionButton;
 
+    // Keys
+    private static final String  KEY_ID = "id";
+    private static final String  KEY_Name = "name";
+    private static final String  KEY_Expiry = "expiry";
+    private static final String  KEY_Quantity = "qty";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +89,7 @@ public class Viewstock extends AppCompatActivity {
         pd.setTitle("Loading Data...");
         // show progressDialog
         pd.show();
-        db.collection("Products")
+        db.collection("Products").orderBy(KEY_Quantity)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -93,10 +99,10 @@ public class Viewstock extends AppCompatActivity {
                         pd.dismiss();
                         // show data
                         for(DocumentSnapshot snapshot: task.getResult()){
-                            Prod prod = new Prod(snapshot.getString("id"),
-                                    snapshot.getString("name"),
-                                    snapshot.getString("qty"),
-                                    snapshot.getString("expiry"));
+                            Prod prod = new Prod(snapshot.getString(KEY_ID),
+                                                 snapshot.getString(KEY_Name),
+                                                 snapshot.getString(KEY_Quantity),
+                                                 snapshot.getString(KEY_Expiry));
                             prodList.add(prod);
                         }
                         // adapter
@@ -112,6 +118,7 @@ public class Viewstock extends AppCompatActivity {
                         Toast.makeText(Viewstock.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        //adapter.notifyDataSetChanged();
 
 
     }
@@ -131,10 +138,10 @@ public class Viewstock extends AppCompatActivity {
                         pd.dismiss();
                         // show data
                         for(DocumentSnapshot snapshot: task.getResult()){
-                            Prod prod = new Prod(snapshot.getString("id"),
-                                    snapshot.getString("name"),
-                                    snapshot.getString("qty"),
-                                    snapshot.getString("expiry"));
+                            Prod prod = new Prod(snapshot.getString(KEY_ID),
+                                                 snapshot.getString(KEY_Name),
+                                                 snapshot.getString(KEY_Quantity),
+                                                 snapshot.getString(KEY_Expiry));
                             prodList.add(prod);
                         }
                         // adapter
@@ -155,7 +162,7 @@ public class Viewstock extends AppCompatActivity {
     // Delete Items From Stock
     public void deleteData(int index){
         // set title of progressDialog
-        pd.setTitle("Loading Data...");
+        pd.setTitle("Deleting Data...");
         // show progressDialog
         pd.show();
 
@@ -165,7 +172,7 @@ public class Viewstock extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         pd.dismiss();
-                        Toast.makeText(Viewstock.this, "Deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Viewstock.this, "Item Deleted", Toast.LENGTH_SHORT).show();
                         showData();
                     }
                 })
@@ -202,4 +209,5 @@ public class Viewstock extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
 
     }
+
 }

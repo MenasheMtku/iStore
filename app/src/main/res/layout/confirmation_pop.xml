@@ -14,28 +14,32 @@
             android:padding="23dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/pop_text_alert"
-                android:text="@string/sure_text_pop"
-                android:textSize="23dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:padding="6dp"/>
+                android:padding="6dp"
+                android:text="@string/sure_text_pop"
+                android:textSize="23dp" />
+
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/conf_no_btn"
-                android:text="@string/pop_no_btn"
-                android:textAllCaps="false"
-                android:layout_marginTop="22dp"/>
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/conf_yes_btn"
-                android:text="@string/pop_yes_btn"
-                android:textAllCaps="false"
                 android:layout_marginTop="22dp"
-                android:layout_alignParentEnd="true"/>
+                android:text="@string/pop_no_btn"
+                android:background="@drawable/custome_button"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/conf_yes_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="22dp"
+                android:text="@string/pop_yes_btn"
+                android:background="@drawable/custome_button"
+                android:textAllCaps="false" />
 
         </RelativeLayout>
 

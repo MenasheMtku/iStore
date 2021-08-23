@@ -19,11 +19,11 @@
                 android:id="@+id/title_popup_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/update_item"
                 android:gravity="center"
                 android:padding="10dp"
+                android:text="@string/update_item"
                 android:textSize="20sp"
-                android:textStyle="bold|italic"/>
+                android:textStyle="bold|italic" />
             <EditText
                 android:id="@+id/itemName_popup_id"
                 android:layout_width="match_parent"

@@ -1,16 +1,12 @@
 package com.example.istore.SK_Activities;
 
-import static android.graphics.Color.*;
+import static android.graphics.Color.BLUE;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,14 +23,12 @@ import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 public class AddProduct extends AppCompatActivity {
@@ -45,6 +39,13 @@ public class AddProduct extends AppCompatActivity {
     // Fireestore instance
     FirebaseFirestore db;
     CollectionReference dbReference;
+
+    // Keys
+    private static final String  KEY_ID = "id";
+    private static final String  KEY_Name = "name";
+    private static final String  KEY_Expiry = "expiry";
+    private static final String  KEY_Quantity = "qty";
+    private static final String  KEY_Search = "search";
     // Progress Dialog
     ProgressDialog pd;
 
@@ -77,7 +78,7 @@ public class AddProduct extends AppCompatActivity {
         if (bundle != null){
             //update data
 //            actionBar.setTitle("Update Product");
-            saveItem.setText("U p d a t e");
+            saveItem.setText("Update");
             saveItem.setTextColor(BLUE);
             // get data
             pId = bundle.getString("pId");
@@ -113,7 +114,7 @@ public class AddProduct extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
 
-                        itemExpriedDate.setText(mDay + " - " + (mMonth + 1) + " - " + mYear);
+                        itemExpriedDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
                         Log.i("Date Picked: ", mDay+" - "+(mMonth+1)+" - "+mYear);
                     }
                 }, day, month, year);
@@ -177,11 +178,11 @@ public class AddProduct extends AppCompatActivity {
         String id = UUID.randomUUID().toString();
 
         Map<String, Object> doc = new HashMap<>();
-        doc.put("id",id);
-        doc.put("name", name);
-        doc.put("qty", qty);
-        doc.put("expiry", expiry);
-        doc.put("search", name.toLowerCase());
+        doc.put(KEY_ID,id);
+        doc.put(KEY_Name, name);
+        doc.put(KEY_Quantity, qty);
+        doc.put(KEY_Expiry, expiry);
+        doc.put(KEY_Search, name.toLowerCase());
         // Add this data
         db.collection("Products")
                 .document(id)
@@ -194,7 +195,8 @@ public class AddProduct extends AppCompatActivity {
                         itemName.setFocusable(true);
                         itemQuantity.setText("");
                         itemExpriedDate.setText("");
-                        Toast.makeText(AddProduct.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(AddProduct.this, "Product Uploaded", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

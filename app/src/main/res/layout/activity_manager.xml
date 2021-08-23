@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
-        android:background="#65A9DF"
+        android:background="#5464BC"
         app:title="Manager Menu"
-        app:titleTextColor="@android:color/black"
+        app:titleTextColor="@android:color/white"
         app:titleMarginStart="35dp"
-        app:logo="@drawable/ic_manager_toolbar_icon"
-        >
+        app:logo="@drawable/ic_manager_toolbar_icon">
 
     </androidx.appcompat.widget.Toolbar>
 

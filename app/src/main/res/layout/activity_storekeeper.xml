@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar_sk_id"
-        android:background="#7FDCD3"
+        android:background="#5464BC"
         app:title="Storekeeper Menu"
-        app:titleTextColor="@android:color/black"
+        app:titleTextColor="@android:color/white"
         app:titleMarginStart="35dp"
         app:logo="@drawable/store_k_toolbar_icon">
 
