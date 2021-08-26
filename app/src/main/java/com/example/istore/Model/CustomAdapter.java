@@ -20,8 +20,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
-    Viewstock viewstock;
+
     List<Prod> prodList;
+    Viewstock viewstock;
     Context context;
 
 

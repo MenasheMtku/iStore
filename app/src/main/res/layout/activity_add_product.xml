@@ -6,15 +6,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SK_Activities.AddProduct"
-    android:padding="48dp"
+    android:padding="32dp"
     android:gravity="center">
 
 
+    <ImageView
+        android:id="@+id/newProdImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/new_product" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="100dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newProdImg"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical">
 
 
         <EditText
@@ -61,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/custome_button"
+            android:background="@drawable/custome_card"
             android:text="S  a  v  e"
             android:textAllCaps="false"
             android:textColor="#111"
@@ -73,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:background="@drawable/custome_button"
+            android:background="@drawable/custome_card"
             android:text="C l e a r"
             android:textAllCaps="false"
             android:textColor="#111"
