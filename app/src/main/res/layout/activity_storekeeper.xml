@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/toolbar_sk_id"
         android:background="#5464BC"
-        app:title="Storekeeper Menu"
+        app:title="@string/worker_name"
         app:titleTextColor="@android:color/white"
         app:titleMarginStart="35dp"
         app:logo="@drawable/store_k_toolbar_icon">

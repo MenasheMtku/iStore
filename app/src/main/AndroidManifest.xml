@@ -13,14 +13,18 @@
         <activity android:name=".SK_Activities.sMreport" />
         <activity android:name=".SK_Activities.AddProduct" />
         <activity android:name=".Storekeeper" />
-        <activity android:name=".Manager" />
+        <activity android:name=".Manager">
+
+        </activity>
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
         </activity>
     </application>
 

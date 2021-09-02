@@ -9,5 +9,5 @@
     <color name="colorPrimaryDarkBlue">#5464BC</color>
     <color name="colorPrimaryLightBlue">#7E8BD3</color>
     <color name="colorAccentLight">#D0DDDC</color>
-    <color name="colorAccentWhite">#FFFFFF</color>
+    <color name="colorAccentDarkGrey">#5C5959</color>
 </resources>

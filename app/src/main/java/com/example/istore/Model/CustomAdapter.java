@@ -4,12 +4,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.istore.SK_Activities.AddProduct;
@@ -17,18 +23,29 @@ import com.example.istore.R;
 import com.example.istore.Viewstock;
 import com.google.android.material.snackbar.Snackbar;
 
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    List<Prod> prodList;
-    Viewstock viewstock;
-    Context context;
+@RequiresApi(api = Build.VERSION_CODES.O)
+public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements Filterable{
+
+    LocalDate localDate = LocalDate.now();
+    private static final String TAG = "items";
+    private List<Prod> prodList;
+            List<Prod> prodListFull;
+            Viewstock viewstock;
+            Context context;
+
 
 
     public CustomAdapter(Viewstock viewstock, List<Prod> prodList) {
         this.viewstock = viewstock;
         this.prodList = prodList;
+             prodListFull = new ArrayList<>(prodList);
     }
 
     @NonNull
@@ -88,15 +105,64 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> {
         return viewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.pName.setText(prodList.get(position).getName());
         holder.pQty.setText(prodList.get(position).getQuantity());
         holder.pExp.setText(prodList.get(position).getExpiry());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        for(Prod item : prodList){
+            Log.d(TAG, item.getName()+"---->"+item.getExpiry()+" "+localDate.format(formatter));
+        }
+
+
     }
 
     @Override
     public int getItemCount() {
         return prodList.size();
     }
+
+
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            List<Prod> filteredList = new ArrayList<>();
+            if( charSequence == null || charSequence.length() == 0 ){
+
+                filteredList.addAll(prodListFull);
+
+            }else{
+                 String filterPatten = charSequence.toString().toLowerCase().trim();
+
+                 for(Prod item : prodListFull){
+                     if(item.getName().toLowerCase().contains(filterPatten)){
+                         filteredList.add(item);
+                     }
+                 }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+
+            prodList.clear();
+            prodList.addAll((List)results.values);
+            notifyDataSetChanged();
+
+        }
+    };
 }

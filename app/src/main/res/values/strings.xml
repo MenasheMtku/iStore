@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">iStore</string>
+    <string name="admin_name">Admin</string>
+    <string name="worker_name">StoreKeeper</string>
     <string name="sure_text_pop">Are you sure ?</string>
     <string name="pop_no_btn">No</string>
     <string name="pop_yes_btn">Yes</string>

@@ -45,7 +45,7 @@ public class AddProduct extends AppCompatActivity {
     private static final String  KEY_Name = "name";
     private static final String  KEY_Expiry = "expiry";
     private static final String  KEY_Quantity = "qty";
-    private static final String  KEY_Search = "search";
+//    private static final String  KEY_Search = "search";
     // Progress Dialog
     ProgressDialog pd;
 
@@ -182,7 +182,7 @@ public class AddProduct extends AppCompatActivity {
         doc.put(KEY_Name, name);
         doc.put(KEY_Quantity, qty);
         doc.put(KEY_Expiry, expiry);
-        doc.put(KEY_Search, name.toLowerCase());
+//        doc.put(KEY_Search, name.toLowerCase());
         // Add this data
         db.collection("Products")
                 .document(id)

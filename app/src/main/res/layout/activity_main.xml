@@ -25,8 +25,8 @@
                     android:hint=" Name"
                     android:inputType="textPersonName"
                     android:minHeight="58dp"
-                    android:textColor="@color/colorAccentWhite"
-                    android:textColorHint="@color/colorAccentWhite" />
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white" />
 
                 <EditText
                     android:id="@+id/etPass"
@@ -38,8 +38,8 @@
                     android:hint=" Password"
                     android:inputType="textPassword"
                     android:minHeight="58dp"
-                    android:textColor="@color/colorAccentWhite"
-                    android:textColorHint="@color/colorAccentWhite" />
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
