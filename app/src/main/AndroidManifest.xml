@@ -11,12 +11,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Viewstock"></activity>
         <activity android:name=".SK_Activities.sMreport" />
-        <activity android:name=".SK_Activities.AddProduct" />
-        <activity android:name=".Storekeeper" />
-        <activity android:name=".Manager">
+        <activity android:name=".SK_Activities.AddProduct"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Storekeeper"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Manager"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
 
