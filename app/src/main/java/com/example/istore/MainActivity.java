@@ -3,41 +3,81 @@ package com.example.istore;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText etName, etPass;
+    EditText et_email, et_password;
+    Button loginButton;
+//    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        mAuth = FirebaseAuth.getInstance();
 
         etName = (EditText) findViewById(R.id.etName);
         etPass = (EditText) findViewById(R.id.etPass);
 
-        /* Remove Hint when people tap on UserName box
-        etPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                etPass.setHint("");
-
-            }
-        });
-        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                etName.setHint("");
-            }
-        });
-        */
+//        et_email = (EditText) findViewById(R.id.emailet);
+//        et_password = (EditText) findViewById(R.id.passwordet);
+//        loginButton = (Button) findViewById(R.id.loginBtn);
+//        loginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String email = et_email.getText().toString().trim();
+//                String password = et_password.getText().toString().trim();
+//
+//                if(TextUtils.isEmpty(email)){
+//
+//                    Toast.makeText(MainActivity.this,"Email is required" , Toast.LENGTH_SHORT).show();
+//
+//                }
+//                if(TextUtils.isEmpty(password)){
+//
+//                    Toast.makeText(MainActivity.this,"Password is required" , Toast.LENGTH_SHORT).show();
+//
+//                }
+//                if(password.length()< 6 ){
+//
+//                    Toast.makeText(MainActivity.this,"Password is too short, 6 and above." , Toast.LENGTH_SHORT).show();
+//
+//                }
+//
+//            mAuth.signInWithEmailAndPassword(email,password)
+//                    .addOnCompleteListener(MainActivity.this, task -> {
+//
+//                        if(task.isSuccessful()){
+//
+//                            startActivity(new Intent(getApplicationContext(), Manager.class));
+//                        }
+//                        else{
+//                            Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//            }
+//        });
 
     }
+
+
 
     public void check(View view) {
         //if (etName.getText().toString().equals("admin") && etPass.getText().toString().equals("123")){
@@ -65,9 +105,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
     public void showMessage(String title, String Message) {

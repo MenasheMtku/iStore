@@ -1,6 +1,7 @@
 package com.example.istore.Model;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -9,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.istore.R;
 
 
-public class ViewHolder extends RecyclerView.ViewHolder {
+public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-    TextView pName, pQty, pExp;
+    public ImageView pImageView;
+    public TextView pName, pQty, pExp, pCategory;
     View mView;
 
-    public ViewHolder(@NonNull View itemView) {
+    public CustomViewHolder(@NonNull View itemView) {
         super(itemView);
 
         mView = itemView;
@@ -38,9 +40,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         });
 
         // initialize view with item_layout
-        pName = itemView.findViewById(R.id.text_view_item_Name);
-        pQty  = itemView.findViewById(R.id.text_view_qyt);
-        pExp  = itemView.findViewById(R.id.text_view_expiry_date);
+        pImageView = itemView.findViewById(R.id.prodImageCardIV_ID);
+        pName = itemView.findViewById(R.id.prodNameCardTV_ID);
+        pCategory =  itemView.findViewById(R.id.itemCategoryTV);
+        pQty  = itemView.findViewById(R.id.prodQtyCardTV_ID);
+        pExp  = itemView.findViewById(R.id.prodExpiryCardTV_ID);
+
 
 
     }

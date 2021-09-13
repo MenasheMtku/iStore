@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    app:cardCornerRadius="5dp"
     app:cardBackgroundColor="#FFFEEE"
-    >
-<!--    app:cardBackgroundColor="#FFFEEE"-->
+    app:cardElevation="3dp">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/custome_card"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_view_item_Name"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:maxLines="1"
-            android:text="Item Name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_view_qyt"
+            <ImageView
+                android:id="@+id/prodImageCardIV_ID"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic__add_new_prod" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_height="match_parent"
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/text_view_expiry_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_view_item_Name"
-            android:text="DD/MM/YYYY"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="italic" />
+            <TextView
+                android:id="@+id/prodNameCardTV_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:maxLines="1"
+                android:text="Item Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <TextView
+                android:id="@+id/prodQtyCardTV_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="@{Prod.getQuantity}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/itemCategoryTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/prodNameCardTV_ID"
+                android:maxLines="1"
+                android:text="Category"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:id="@+id/prodExpiryCardTV_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:fontFamily="monospace"
+                android:text="DD/MM/YYYY"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="italic" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

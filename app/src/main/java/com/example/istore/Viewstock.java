@@ -17,7 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.istore.Model.CustomAdapter;
+import com.example.istore.Adapter.CustomAdapter;
 import com.example.istore.Model.Prod;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,7 +31,7 @@ import java.util.List;
 
 public class Viewstock extends AppCompatActivity {
 
-    List<Prod> prodList = new ArrayList<>();
+
 
     RecyclerView mRecyclerView;
     // layout manager for recycler view
@@ -42,13 +42,17 @@ public class Viewstock extends AppCompatActivity {
     CustomAdapter adapter;
     ProgressDialog pd;
     EditText searcEditText;
+    List<Prod> prodList = new ArrayList<>();
 //    FloatingActionButton floatingActionButton;
 
     // Keys
     private static final String  KEY_ID = "id";
-    private static final String  KEY_Name = "name";
-    private static final String  KEY_Expiry = "expiry";
-    private static final String  KEY_Quantity = "qty";
+    private static final String  KEY_NAME = "prodtName";
+    private static final String  KEY_CATEGORY = "prodCategory";
+    private static final String  KEY_EXPIRY = "prodExpirationDate";
+    private static final String  KEY_QUANTITY = "prodQuantity";
+    private static final String  KEY_IMAGEURI = "prodImageUrl";
+
 
 
     @Override
@@ -95,11 +99,11 @@ public class Viewstock extends AppCompatActivity {
 
             }
 
+//            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void afterTextChanged(Editable editable) {
 
-                adapter.getFilter().filter(editable);
-
+                    adapter.getFilter().filter(editable);
             }
         });
         searcEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -113,7 +117,7 @@ public class Viewstock extends AppCompatActivity {
         pd.setTitle("Loading Data...");
         // show progressDialog
         pd.show();
-        db.collection("Products").orderBy(KEY_Quantity)
+        db.collection("Products").orderBy(KEY_QUANTITY)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -124,9 +128,11 @@ public class Viewstock extends AppCompatActivity {
                         // show data
                         for(DocumentSnapshot snapshot: task.getResult()){
                             Prod prod = new Prod(snapshot.getString(KEY_ID),
-                                                 snapshot.getString(KEY_Name),
-                                                 snapshot.getString(KEY_Quantity),
-                                                 snapshot.getString(KEY_Expiry));
+                                                snapshot.getString(KEY_NAME),
+                                                snapshot.getString(KEY_QUANTITY),
+                                                snapshot.getString(KEY_EXPIRY),
+                                                snapshot.getString(KEY_IMAGEURI),
+                                                snapshot.getString(KEY_CATEGORY));
                             prodList.add(prod);
                         }
                         // adapter
@@ -142,48 +148,10 @@ public class Viewstock extends AppCompatActivity {
                         Toast.makeText(Viewstock.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        //adapter.notifyDataSetChanged();
+
 
 
     }
-
-    // Search Specific Item METHOD
-//    private void searchData(String s) {
-//
-//            pd.setTitle("Searching...");
-//            pd.show();
-//            db.collection("Products").whereEqualTo("search", s.toLowerCase())
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            // called when searching  is succeed
-//                            prodList.clear();
-//                            pd.dismiss();
-//                            // show data
-//                            for (DocumentSnapshot snapshot : task.getResult()) {
-//                                Prod prod = new Prod(snapshot.getString(KEY_ID),
-//                                        snapshot.getString(KEY_Name),
-//                                        snapshot.getString(KEY_Quantity),
-//                                        snapshot.getString(KEY_Expiry));
-//                                prodList.add(prod);
-//                            }
-//                            // adapter
-//                            adapter = new CustomAdapter(Viewstock.this, prodList);
-//                            // set adapter to recyclerview
-//                            mRecyclerView.setAdapter(adapter);
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            pd.dismiss();
-//                            Toast.makeText(Viewstock.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//    }
-
     // Delete Items From Stock
     public void deleteData(int index){
         // set title of progressDialog
@@ -214,27 +182,6 @@ public class Viewstock extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main,menu);
-
-//        MenuItem searchItem = menu.findItem(R.id.action_search)
-//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//        SearchView searchView = (SearchView) searchItem.getActionView();
-//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//
-//                adapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
 
         return true;
 

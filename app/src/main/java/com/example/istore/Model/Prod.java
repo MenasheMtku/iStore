@@ -2,19 +2,20 @@ package com.example.istore.Model;
 
 public class Prod {
 
-    private String id;
-    private String name;
-    private String quantity;
-    private String expiry;
+
+    private String id , name, quantity, expiry, imageUrl, catName;
 
     public Prod() {
     }
 
-    public Prod(String id,String name, String quantity, String expiry) {
+    public Prod(String id, String name, String quantity, String expiry, String imageUrl, String catName ) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.expiry = expiry;
+        this.imageUrl = imageUrl;
+        this.catName = catName;
+
     }
 
     public String getId() {
@@ -47,5 +48,20 @@ public class Prod {
 
     public void setExpiry(String expiry) {
         this.expiry = expiry;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getCatName() {
+        return catName;
+    }
+
+    public void setCatName(String catName) {
+        this.catName = catName;
     }
 }

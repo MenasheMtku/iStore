@@ -5,7 +5,7 @@
         <shape android:shape="rectangle"/>
     </item>
     <item
-        android:bottom="500dp"
+        android:bottom="600dp"
         android:left="-100dp"
         android:right="-100dp"
         android:top="-80dp">

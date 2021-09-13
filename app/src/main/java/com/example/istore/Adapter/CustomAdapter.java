@@ -1,10 +1,10 @@
-package com.example.istore.Model;
+package com.example.istore.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.nfc.Tag;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,23 +18,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.istore.SK_Activities.AddProduct;
+import com.example.istore.Model.Prod;
+import com.example.istore.Model.CustomViewHolder;
 import com.example.istore.R;
+import com.example.istore.SK_Activities.AddProduct;
 import com.example.istore.Viewstock;
-import com.google.android.material.snackbar.Snackbar;
-
+import com.squareup.picasso.Picasso;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@RequiresApi(api = Build.VERSION_CODES.O)
-public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements Filterable{
+public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> implements Filterable{
 
-    LocalDate localDate = LocalDate.now();
+//    LocalDate todayDate = LocalDate.now();
+//    LocalDate futreDate;
     private static final String TAG = "items";
+    private static final String TAG1 = "onBindString";
     private List<Prod> prodList;
             List<Prod> prodListFull;
             Viewstock viewstock;
@@ -50,22 +53,27 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements F
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate Layout
         View iteView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(iteView);
+        CustomViewHolder viewHolder = new CustomViewHolder(iteView);
         // handle item clicks here
-        viewHolder.setOnClickListener(new ViewHolder.ClickListener() {
+        viewHolder.setOnClickListener(new CustomViewHolder.ClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 String tName = prodList.get(position).getName();
                 String tQty = prodList.get(position).getQuantity();
                 String tExp = prodList.get(position).getExpiry();
+                String tcat = prodList.get(position).getCatName();
+                String timage = prodList.get(position).getImageUrl();
 
-                Snackbar snackbar = Snackbar.make(view, tQty+ " | " +tName+" | "+ tExp, Snackbar.LENGTH_LONG);
-                snackbar.show();
-//                Toast.makeText(viewstock, tName+"   "+tQty+"\n"+ tExp,Toast.LENGTH_SHORT).show();
+                Toast.makeText(viewstock, "Name : "+tName+"\n" +
+                                                "Qty : "+tQty+"\n" +
+                                                "ExDate : " + tExp+ "\n"+
+                                                "Category : "+tcat +"\n"+
+                                                "ImagePath : "+timage,
+                                                Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -107,25 +115,68 @@ public class CustomAdapter extends RecyclerView.Adapter<ViewHolder> implements F
 
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.pName.setText(prodList.get(position).getName());
-        holder.pQty.setText(prodList.get(position).getQuantity());
-        holder.pExp.setText(prodList.get(position).getExpiry());
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        // get data
+        Prod prod = prodList.get(position);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for(Prod item : prodList){
-            Log.d(TAG, item.getName()+"---->"+item.getExpiry()+" "+localDate.format(formatter));
+
+        String uID = prod.getId();
+        String image = prod.getImageUrl();
+        String name = prod.getName();
+        String cat = prod.getCatName();
+        String qty = prod.getQuantity();
+        String exp = prod.getExpiry();
+
+//        //testing
+//        Log.i(TAG1, "Get Strings before set on holder: \n"+
+//                "UUID: "+ uID +"\n"+
+//                "Name: "+ name +"\n"+
+//                "Quantity: "+ qty +"\n"+
+//                "Date: "+ exp +"\n"+
+//                "Category: "+ cat +"\n"+
+//                "ImageAddress: "+ image +"");
+
+        // set data
+        holder.pName.setText(name);
+        holder.pCategory.setText(cat);
+        holder.pQty.setText(qty);
+        holder.pExp.setText(exp);
+
+        try {
+            Picasso.get().load(image).placeholder(R.drawable.ic__add_new_prod).into(holder.pImageView);
+        }
+        catch (Exception e){
+            holder.pImageView.setImageResource(R.drawable.ic__add_new_prod);
         }
 
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for(Prod item : prodList){
+
+            LocalDate todayDate = LocalDate.now();
+            String today = todayDate.format(formatter);
+            String futreDate = String.format(item.getExpiry(), formatter);
+
+            LocalDate date_1 = LocalDate.parse(today,formatter);
+            LocalDate date_2 = LocalDate.parse(futreDate,formatter);
+            // calculate difference between the dates
+            long diff = ChronoUnit.DAYS.between(date_1,date_2);
+
+            if(diff <= 0){
+                Log.i(TAG,  item.getName()+" Expiry Date: "+futreDate+" EXPIRED!!!");
+
+            }else if( diff <= 14){
+                Log.i(TAG, item.getName()+" Expiry Date: "+futreDate+" "+String.valueOf(diff)+" DAYS to expire");
+
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
         return prodList.size();
     }
-
-
 
     @Override
     public Filter getFilter() {

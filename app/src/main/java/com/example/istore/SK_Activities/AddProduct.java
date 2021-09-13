@@ -2,53 +2,86 @@ package com.example.istore.SK_Activities;
 
 import static android.graphics.Color.BLUE;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.example.istore.Model.Categories;
 import com.example.istore.Model.Prod;
 import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class AddProduct extends AppCompatActivity {
-
+    // UI views
+    private TextView categoryTv, activityTitle;
+    private Button saveItemBtn, addImageBtn;
+    private ImageView selectDate, itemImage;
     private EditText itemName, itemQuantity, itemExpriedDate;
-    Button saveItem, clearFields;
 
+    // permission constants
+    private static final int CAMERA_REQUEST_CODE = 200;
+    private static final int STORAGE_REQUEST_CODE = 300;
+    //image pick constants
+    private static final int IMAGE_PICK_GALLERY_CODE = 400;
+    private static final int IMAGE_PICK_CAMERA_CODE = 500;
+    // permission arrays
+    private String [] cameraPermissions;
+    private String [] storagePermissions;
+    // image picked URI
+    private Uri image_uri;
     // Fireestore instance
     FirebaseFirestore db;
     CollectionReference dbReference;
-
+    private FirebaseAuth firebaseAuth;
     // Keys
     private static final String  KEY_ID = "id";
-    private static final String  KEY_Name = "name";
-    private static final String  KEY_Expiry = "expiry";
-    private static final String  KEY_Quantity = "qty";
-//    private static final String  KEY_Search = "search";
+    private static final String  KEY_NAME = "prodtName";
+    private static final String  KEY_CATEGORY = "prodCategory";
+    private static final String  KEY_EXPIRY = "prodExpirationDate";
+    private static final String  KEY_QUANTITY = "prodQuantity";
+    private static final String  KEY_IMAGEURI = "prodImageUrl";
     // Progress Dialog
     ProgressDialog pd;
-
     Calendar cal;
     DatePickerDialog datePicker;
     String pId, pName, pQuantity,pExpiry;
@@ -60,26 +93,34 @@ public class AddProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        //firestore
+        // init firestore
         db = FirebaseFirestore.getInstance();
         dbReference = db.collection("Products");
-        //model
+        firebaseAuth = FirebaseAuth.getInstance();
+        // init model
         prod = new Prod();
-
+        // init ui views
+        activityTitle = (TextView)findViewById(R.id.activityTitleTV);
+        itemImage = (ImageView) findViewById(R.id.imageViewCart);
+        selectDate = (ImageView) findViewById(R.id.datePickImageView);
         itemName = (EditText) findViewById(R.id.etName);
         itemQuantity = (EditText) findViewById(R.id.etQuantity);
         itemExpriedDate = (EditText) findViewById(R.id.etExpiredDate);
-
-        saveItem = (Button) findViewById(R.id.saveBtn);
-        clearFields = (Button) findViewById(R.id.clearBtn);
-
+        categoryTv = (TextView) findViewById(R.id.etCategory);
+        saveItemBtn = (Button) findViewById(R.id.saveBtn);
+//        clearFields = (Button) findViewById(R.id.clearBtn);
+        addImageBtn = (Button) findViewById(R.id.addImage);
+        // init permission arrays
+        cameraPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
             //update data
 //            actionBar.setTitle("Update Product");
-            saveItem.setText("Update");
-            saveItem.setTextColor(BLUE);
+            activityTitle.setText("Edit Product");
+            saveItemBtn.setText("Update");
+            saveItemBtn.setTextColor(BLUE);
             // get data
             pId = bundle.getString("pId");
             pName = bundle.getString("pName");
@@ -93,14 +134,27 @@ public class AddProduct extends AppCompatActivity {
         }
         else{
             // new data
-            saveItem.setText("S a v e");
+            saveItemBtn.setText("Save");
             //saveItem.setTextColor(GREEN);
 
         }
         pd = new ProgressDialog(this);
 
+        categoryTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // pick category
+                categoryDialog();
+            }
+        });
+        addImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImagePickDialog();        
+            }
+        });
         //choose date
-        itemExpriedDate.setOnClickListener(new View.OnClickListener() {
+        selectDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
@@ -114,8 +168,18 @@ public class AddProduct extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
 
-                        itemExpriedDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
-                        Log.i("Date Picked: ", mDay+" - "+(mMonth+1)+" - "+mYear);
+                        mMonth+=1;
+                        String mt,dy;   //local variable
+                        if(mMonth<10)
+                            mt="0"+mMonth; //if month less than 10 then ad 0 before month
+                        else mt=String.valueOf(mMonth);
+
+                        if(mDay<10)
+                            dy = "0"+mDay;
+                        else dy = String.valueOf(mDay);
+
+                        itemExpriedDate.setText(dy + "-" + mt  + "-" + mYear);
+                        Log.i("Date Picked: ", dy+" - "+mt+" - "+mYear);
                     }
                 }, day, month, year);
 
@@ -126,7 +190,7 @@ public class AddProduct extends AppCompatActivity {
 
         });
 
-        saveItem.setOnClickListener(new View.OnClickListener() {
+        saveItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -135,90 +199,319 @@ public class AddProduct extends AppCompatActivity {
                     //updating
                     String id = pId;
                     String name = itemName.getText().toString().trim();
-                    String quntity  = itemQuantity.getText().toString().trim();
+                    String category = categoryTv.getText().toString().trim();
+                    String quantity  = itemQuantity.getText().toString().trim();
                     String expiry  = itemExpriedDate.getText().toString().trim();
 
+
                     //  funct call update data
-                    editData(id, name,quntity,expiry);
+                    editData(id, name,category,quantity,expiry);
 
                 }
                 else{
                     // Add New
                     // input data
-                    String name = itemName.getText().toString().trim();
-                    String qty  = itemQuantity.getText().toString().trim();
-                    String expiry  = itemExpriedDate.getText().toString().trim();
+                    inputData();
 
-                    if(name.isEmpty() || qty.isEmpty() || expiry.isEmpty()){
-                        Toast.makeText(AddProduct.this, "Mandatory Fields Are Empty ", Toast.LENGTH_SHORT).show();
-
-                    }else {
-                        // func called to upload date 2 firebase
-                        uploadData(name, qty, expiry);
-                    }
                 }
             }
         });
-        clearFields.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                itemName.setText("");
-                itemName.setFocusable(true);
-                itemQuantity.setText("");
-                itemExpriedDate.setText("");
+    }
+    private String prodNmae, prodCategory,prodQuantity,prodExpiary;
+    private void inputData() {
+        // input data
+        prodNmae     = itemName.getText().toString().trim();
+        prodCategory = categoryTv.getText().toString().trim();
+        prodQuantity = itemQuantity.getText().toString().trim();
+        prodExpiary  = itemExpriedDate.getText().toString().trim();
+
+        // validate
+        if(TextUtils.isEmpty(prodNmae)){
+            Toast.makeText(this, "Item name is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(prodCategory)){
+            Toast.makeText(this, "Item category is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(prodQuantity)){
+            Toast.makeText(this, "Item name is required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // upload product to firstore
+        uploadData(prodNmae, prodCategory ,prodQuantity, prodExpiary);
+    }
+
+    private void categoryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Products Categories")
+                .setItems(Categories.productCategories, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //get picked category
+                        String category = Categories.productCategories[i];
+
+                        // set picked Category
+                        categoryTv.setText(category);
+                    }
+                }).show();
+    }
+
+    private void showImagePickDialog() {
+
+        String[] options = {"Camera","Gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick Image Source")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(i ==0){
+                            // camera clicked
+                            if(checkCameraePermission()){
+                                // permission granted
+                                pickFromCamera();
+                            }else{
+                                // // permission NOT granted
+                                requestCameraPermission();
+                            }
+                        }
+                        else{
+                            // gallery clicked
+                            if(checkStoragePermission()){
+                                // permission granted
+                                pickFromGallery();
+                            }else{
+                                // // permission NOT granted
+                                requestStoragePermission();
+                            }
+                        }
+                    }
+                }).show();
+    }
+
+    private void pickFromGallery() {
+        // intent to pick image from gallery
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
+    }
+
+    private void pickFromCamera() {
+
+        // intent to pick image from camera
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE,"Temp_Image_Title");
+        contentValues.put(MediaStore.Images.Media.DESCRIPTION,"Temp_Image_Description");
+
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,image_uri);
+        startActivityForResult(intent,IMAGE_PICK_CAMERA_CODE);
+
+    }
+
+    private boolean checkStoragePermission(){
+        boolean result = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                (PackageManager.PERMISSION_GRANTED);
+
+        return result; // return true or false
+    }
+
+    private void requestStoragePermission(){
+        ActivityCompat.requestPermissions(this,storagePermissions, STORAGE_REQUEST_CODE);
+    }
+
+    private boolean checkCameraePermission(){
+        boolean result = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) ==
+                (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                (PackageManager.PERMISSION_GRANTED);
+
+        return result && result1; // return true or false
+    }
+
+    private void requestCameraPermission(){
+        ActivityCompat.requestPermissions(this,storagePermissions, CAMERA_REQUEST_CODE);
+    }
+
+    // handle permission results
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode){
+            case CAMERA_REQUEST_CODE:{
+                if(grantResults.length > 0){
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    if(cameraAccepted && storageAccepted){
+                        // both permission granted
+                        pickFromCamera();
+                    } else{
+                        // both or one of permissions denied
+                        Toast.makeText(this, "Camera and Storage permissions are required..", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
-        });
+            case STORAGE_REQUEST_CODE:{
+                if(grantResults.length > 0){
+                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if(storageAccepted){
+                        // both permission granted
+                        pickFromGallery();
+                    } else{
+                        // both or one of permissions denied
+                        Toast.makeText(this, "Storage permission is required..", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void uploadData(String name, String qty, String expiry) {
-        pd.setTitle("Adding To Firebase");
+    // handle image image results
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if(resultCode == RESULT_OK){
+
+            if(requestCode == IMAGE_PICK_GALLERY_CODE){
+                // image picked from gallery
+
+                // save picked image uri
+                image_uri = data.getData();
+
+                // set image
+                itemImage.setImageURI(image_uri);
+            }
+            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
+                // image picked from camera
+
+                itemImage.setImageURI(image_uri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void uploadData(String name, String category, String qty, String expiry) {
+        pd.setTitle("Adding To Firebase...");
         pd.show();
-        // random id to each data to be stored
-        String id = UUID.randomUUID().toString();
 
-        Map<String, Object> doc = new HashMap<>();
-        doc.put(KEY_ID,id);
-        doc.put(KEY_Name, name);
-        doc.put(KEY_Quantity, qty);
-        doc.put(KEY_Expiry, expiry);
-//        doc.put(KEY_Search, name.toLowerCase());
-        // Add this data
-        db.collection("Products")
-                .document(id)
-                .set(doc)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        pd.dismiss();
-                        itemName.setText("");
-                        itemName.setFocusable(true);
-                        itemQuantity.setText("");
-                        itemExpriedDate.setText("");
+        final String timestamp = ""+System.currentTimeMillis();
+        if(image_uri == null) {
+            // upload without image
 
-                        Toast.makeText(AddProduct.this, "Product Uploaded", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        pd.dismiss();
-                        Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            String id = UUID.randomUUID().toString(); // random id to each data to be stored
+
+            Map<String, Object> hashMap = new HashMap<>();
+            hashMap.put(KEY_ID,id);
+            hashMap.put(KEY_NAME, name);
+            hashMap.put(KEY_CATEGORY, category);
+            hashMap.put(KEY_QUANTITY, ""+qty);
+            hashMap.put(KEY_EXPIRY, ""+expiry);
+            hashMap.put(KEY_IMAGEURI, ""); //no image --> set empty
+            hashMap.put("timeStamp", timestamp); // date and time when uploaded
+
+            // Add this data
+            db.collection("Products")
+                    .document(id)
+                    .set(hashMap)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            pd.dismiss();
+                            clearData();
+                            Toast.makeText(AddProduct.this, "Product Upload Succeed", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            pd.dismiss();
+                            Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else{
+            // upload with image
+            // -1- upload image to storage
+            // -2- name and path of image to be uploaded
+            String filePathAndName = "product_images/" + ""+timestamp;
+
+           StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+           storageReference.putFile(image_uri)
+                   .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                       @Override
+                       public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // upload image
+                           Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                           while(!uriTask.isSuccessful());
+                           Uri downloadImageUri = uriTask.getResult();
+                           String imageUrl = downloadImageUri.toString();
+
+                           if(uriTask.isSuccessful()){
+                               // url of image received
+                               Log.i("message", ""+ downloadImageUri);
+                               String id = UUID.randomUUID().toString(); // random id to each data to be stored
+
+                               Map<String, Object> hashMap = new HashMap<>();
+                               hashMap.put(KEY_ID,""+id);
+                               hashMap.put(KEY_NAME, name);
+                               hashMap.put(KEY_CATEGORY, category);
+                               hashMap.put(KEY_QUANTITY, ""+qty);
+                               hashMap.put(KEY_EXPIRY, ""+expiry);
+                               hashMap.put(KEY_IMAGEURI, imageUrl);
+                               hashMap.put("TimeStamp", timestamp); // date and time when item uploaded/edited
+
+                               db.collection("Products")
+                                       .document(id)
+                                       .set(hashMap)
+                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<Void> task) {
+                                               pd.dismiss();
+                                               clearData();
+                                               Toast.makeText(AddProduct.this, "Product Upload Succeed", Toast.LENGTH_SHORT).show();
+                                           }
+                                       })
+                                       .addOnFailureListener(new OnFailureListener() {
+                                           @Override
+                                           public void onFailure(@NonNull Exception e) {
+                                               pd.dismiss();
+                                               Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                           }
+                                       });
+                           }
+                       }
+                   })
+                   .addOnFailureListener(new OnFailureListener() {
+                       @Override
+                       public void onFailure(@NonNull Exception e) {
+                            pd.dismiss();
+                           Toast.makeText(AddProduct.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                       }
+                   });
+
+
+        }
+
 
     }
 
-    private void editData(String id, String name, String quantity, String expiry) {
+
+    private void editData(String id, String name,String categrory, String quantity, String expiry) {
         pd.setTitle("Updating Data...");
         pd.show();
-
+        final String timestamp = ""+System.currentTimeMillis();
         db.collection("Products").document(id)
-                .update("name", name, "expiry",expiry,"qty",quantity)
+                .update(KEY_NAME, name,KEY_CATEGORY,categrory, KEY_EXPIRY,expiry,KEY_QUANTITY,quantity)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                        pd.dismiss();
+
                         Toast.makeText(AddProduct.this, "Updated...", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -232,30 +525,13 @@ public class AddProduct extends AppCompatActivity {
 
     }
 
+    private void clearData() {
+        itemName.setText("");
+        categoryTv.setText("Category");
+        itemQuantity.setText("");
+        itemExpriedDate.setText("");
+        itemImage.setImageResource(R.drawable.ic__add_new_prod);
+        image_uri = null;
+    }
 
-//    private void setupFloatingLabelError() {
-//        final TextInputLayout floatingUsernameLabel = (TextInputLayout) findViewById(R.id.pName_text_input_layout);
-//        Objects.requireNonNull(floatingUsernameLabel.getEditText()).addTextChangedListener(new TextWatcher() {
-//            // ...
-//            @Override
-//            public void onTextChanged(CharSequence text, int start, int count, int after) {
-//                if (text.length() > 0 && text.length() <= 4) {
-//                    floatingUsernameLabel.setError(getString(R.string.item_name));
-//                    floatingUsernameLabel.setErrorEnabled(true);
-//                } else {
-//                    floatingUsernameLabel.setErrorEnabled(false);
-//                }
-//            }
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count,
-//                                          int after) {
-//                // TODO Auto-generated method stub
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//    }
 }
