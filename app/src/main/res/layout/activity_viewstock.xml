@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Viewstock">
 
     <androidx.appcompat.widget.Toolbar
@@ -16,55 +17,42 @@
         app:titleMarginStart="35dp"
         app:titleTextColor="@android:color/white" />
 
-
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-
-<!--        android:id="@+id/appBarIdViewStock"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:theme="@style/Theme.AppCompat.DayNight">-->
-
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar_m_id"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:title="Products List" />-->
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-
-    <EditText
-        android:id="@+id/searchBoxID"
+    <LinearLayout
+        android:id="@+id/searchContainerID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginHorizontal="16dp"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:hint="Search Product"
-        android:inputType="textAutoComplete"
-        android:textAlignment="center"
-        android:textSize="18sp" />
+        android:orientation="horizontal"
+        android:layout_margin="4dp"
+        android:gravity="center|center_horizontal"
+        android:layout_below="@id/toolbar">
+
+        <EditText
+            android:id="@+id/searchBoxID"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_editext"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="Search Product"
+            android:inputType="textAutoComplete"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:id="@+id/flterImageViewID"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/ic_filter_alt_24" />
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchBoxID"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@id/searchContainerID" />
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:src="@drawable/ic_add_24"-->
-<!--        tools:ignore="SpeakableTextPresentCheck" />-->
+
 
 </RelativeLayout>

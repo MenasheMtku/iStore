@@ -11,4 +11,15 @@ public class Categories {
             "Pharmacy",
             "Other"
     };
+
+    public static final String [] productCategoriesFilter = {
+
+            "All",
+            "Food",
+            "Beverages",
+            "Chocolates",
+            "Electronics",
+            "Pharmacy",
+            "Other"
+    };
 }

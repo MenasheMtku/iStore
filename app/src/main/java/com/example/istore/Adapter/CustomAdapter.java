@@ -34,8 +34,6 @@ import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> implements Filterable{
 
-//    LocalDate todayDate = LocalDate.now();
-//    LocalDate futreDate;
     private static final String TAG = "items";
     private static final String TAG1 = "onBindString";
     private List<Prod> prodList;

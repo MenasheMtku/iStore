@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,9 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etName, etPass;
-    EditText et_email, et_password;
-    Button loginButton;
+//    EditText etName, etPass;
+//    EditText et_email, et_password;
+    TextView dashboardTv;
+    Button logoutButton;
 //    private FirebaseAuth mAuth;
 
     @Override
@@ -30,11 +32,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dashboardTv = (TextView) findViewById(R.id.dashboardID);
+        logoutButton = (Button) findViewById(R.id.logoutBtn);
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(),Login.class));
+                finish();
+            }
+        });
 //        mAuth = FirebaseAuth.getInstance();
-
-        etName = (EditText) findViewById(R.id.etName);
-        etPass = (EditText) findViewById(R.id.etPass);
-
+//        etName = (EditText) findViewById(R.id.etName);
+//        etPass = (EditText) findViewById(R.id.etPass);
 //        et_email = (EditText) findViewById(R.id.emailet);
 //        et_password = (EditText) findViewById(R.id.passwordet);
 //        loginButton = (Button) findViewById(R.id.loginBtn);
@@ -79,40 +90,40 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void check(View view) {
-        //if (etName.getText().toString().equals("admin") && etPass.getText().toString().equals("123")){
-        if (etName.getText().toString().equals("m") && etPass.getText().toString().equals("1")) {
-            etName.setText("");
-            etPass.setText("");
-
-            Intent p = new Intent(this, Manager.class);
-            startActivity(p);
-        }
-        //else if(etName.getText().toString().equals("worker") && etPass.getText().toString().equals("222")){
-        else if (etName.getText().toString().equals("w") && etPass.getText().toString().equals("2")) {
-            etName.setText("");
-            etPass.setText("");
-
-            Intent p = new Intent(this, Storekeeper.class);
-            startActivity(p);
-
-        } else {
-
-            etName.setText("");
-            etPass.setText("");
-
-            showMessage("Error!!", "Access Denied Trying to Connect to Administrative!");
-        }
-
-    }
-
-
-    public void showMessage(String title, String Message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(Message);
-        builder.show();
-    }
+//    public void check(View view) {
+//        //if (etName.getText().toString().equals("admin") && etPass.getText().toString().equals("123")){
+//        if (etName.getText().toString().equals("m") && etPass.getText().toString().equals("1")) {
+//            etName.setText("");
+//            etPass.setText("");
+//
+//            Intent p = new Intent(this, Manager.class);
+//            startActivity(p);
+//        }
+//        //else if(etName.getText().toString().equals("worker") && etPass.getText().toString().equals("222")){
+//        else if (etName.getText().toString().equals("w") && etPass.getText().toString().equals("2")) {
+//            etName.setText("");
+//            etPass.setText("");
+//
+//            Intent p = new Intent(this, Storekeeper.class);
+//            startActivity(p);
+//
+//        } else {
+//
+//            etName.setText("");
+//            etPass.setText("");
+//
+//            showMessage("Error!!", "Access Denied Trying to Connect to Administrative!");
+//        }
+//
+//    }
+//
+//
+//    public void showMessage(String title, String Message) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setCancelable(true);
+//        builder.setTitle(title);
+//        builder.setMessage(Message);
+//        builder.show();
+//    }
 
 }

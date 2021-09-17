@@ -1,14 +1,18 @@
 package com.example.istore;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.istore.Adapter.CustomAdapter;
+import com.example.istore.Model.Categories;
 import com.example.istore.Model.Prod;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,6 +47,7 @@ public class Viewstock extends AppCompatActivity {
     CustomAdapter adapter;
     ProgressDialog pd;
     EditText searcEditText;
+    ImageView filterImageView;
     List<Prod> prodList = new ArrayList<>();
 //    FloatingActionButton floatingActionButton;
 
@@ -67,6 +73,7 @@ public class Viewstock extends AppCompatActivity {
 
         // initialize views
         searcEditText = (EditText)findViewById(R.id.searchBoxID);
+        filterImageView = (ImageView)findViewById(R.id.flterImageViewID);
         mRecyclerView = findViewById(R.id.recycler_view_id);
         // set recyclerview properties
         mRecyclerView.setHasFixedSize(true);
@@ -77,7 +84,7 @@ public class Viewstock extends AppCompatActivity {
         pd = new ProgressDialog(this);
 
         // display recyclerView
-        showData();
+        showProducts();
 
 
 
@@ -108,10 +115,66 @@ public class Viewstock extends AppCompatActivity {
         });
         searcEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
+        filterImageView.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Viewstock.this);
+            builder.setTitle("Display By Category")
+                    .setItems(Categories.productCategoriesFilter, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String selected = Categories.productCategoriesFilter[i];
+                            if(selected.equals("All")){
+                                showProducts();
+                            }
+                            else{
+                                // load filterd data
+                                showFilteredData(selected);
+                            }
+                        }
+                    }).show();
+        });
+
 
     }
 
-    private void showData() {
+    private void showFilteredData(String selected) {
+        db.collection("Products").orderBy(KEY_QUANTITY)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        // called when data is retrieved
+                        prodList.clear();
+                        // show data
+                        for(DocumentSnapshot snapshot: task.getResult()){
+                            String prodCategory = (String) snapshot.get(KEY_CATEGORY);
+
+                            if(selected.equals(prodCategory)){
+                                    Prod prod = new Prod(snapshot.getString(KEY_ID),
+                                            snapshot.getString(KEY_NAME),
+                                            snapshot.getString(KEY_QUANTITY),
+                                            snapshot.getString(KEY_EXPIRY),
+                                            snapshot.getString(KEY_IMAGEURI),
+                                            snapshot.getString(KEY_CATEGORY));
+                                    prodList.add(prod);
+                            }
+                        }
+                        // adapter
+                        adapter = new CustomAdapter(Viewstock.this,prodList);
+                        // set adapter to recyclerview
+                        mRecyclerView.setAdapter(adapter);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(Viewstock.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private void showProducts() {
 
         // set title of progressDialog
         pd.setTitle("Loading Data...");
@@ -166,7 +229,7 @@ public class Viewstock extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         pd.dismiss();
                         Toast.makeText(Viewstock.this, "Item Deleted", Toast.LENGTH_SHORT).show();
-                        showData();
+                        showProducts();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
