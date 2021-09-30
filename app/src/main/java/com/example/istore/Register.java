@@ -86,7 +86,7 @@ public class Register extends AppCompatActivity {
                                     userInfo.put("fullName", fullName.getText().toString().trim());
                                     userInfo.put("password", password.getText().toString().trim());
                                     userInfo.put("emailAddress", email.getText().toString().trim());
-                                    userInfo.put("phoneNumber", fullName.getText().toString().trim());
+                                    userInfo.put("phoneNumber", phone.getText().toString().trim());
                                     userInfo.put("isUser", "1");
 
                                     df.set(userInfo);

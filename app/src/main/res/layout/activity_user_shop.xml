@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UserShop">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/rounded_title_shape">
+
+        <TextView
+            android:id="@+id/userShopTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            android:text="iStore"
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/userNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:padding="8dp"
+            android:text="Hello User"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:textStyle="normal" />
+
+        <ImageButton
+            android:id="@+id/logoutIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorPrimaryDarkBlue"
+            android:paddingLeft="20dp"
+            android:src="@drawable/ic_baseline_power_settings_24"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/cartIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/logoutIV"
+            android:backgroundTint="@color/colorPrimaryDarkBlue"
+            android:src="@drawable/ic_outline_shopping_cart_24"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchContainerID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <EditText
+            android:id="@+id/searchBoxET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/flterProdIV"
+            android:background="@drawable/background_editext"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="Search Product"
+            android:inputType="textAutoComplete"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/flterProdIV"
+            android:layout_width="55dp"
+            android:layout_height="125dp"
+            android:layout_alignBottom="@id/searchBoxET"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_filter_list_24" />
+
+        <TextView
+            android:id="@+id/filteredProductTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchBoxET"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Showing All" />
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shopProdListRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/filteredProductTV"
+        tools:listitem="@layout/shop_card"/>
+
+
+
+
+</LinearLayout>

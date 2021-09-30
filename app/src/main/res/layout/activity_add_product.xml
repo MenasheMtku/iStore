@@ -21,6 +21,7 @@
                 android:padding="10dp"
                 android:text="Add Product"
                 android:textSize="25dp"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -34,7 +35,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic__add_new_prod" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_outline_prod_image_24" />
 
             <EditText
                 android:id="@+id/etName"
@@ -51,6 +53,14 @@
                 android:minHeight="48dp"
                 android:padding="10dp" />
 
+
+<!--            <Spinner-->
+<!--                android:id="@+id/category_sp"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_below="@id/etName"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:spinnerMode="dropdown" />-->
             <TextView
                 android:id="@+id/etCategory"
                 android:layout_width="match_parent"
@@ -66,7 +76,22 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:minHeight="48dp"
                 android:padding="10dp"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
+
+<!--            <EditText-->
+<!--                android:id="@+id/etPric"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/etCategory"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:background="@drawable/background_editext"-->
+<!--                android:hint="Price Per Unit"-->
+<!--                android:inputType="number"-->
+<!--                android:minHeight="48dp"-->
+<!--                android:padding="10dp" />-->
 
             <EditText
                 android:id="@+id/etQuantity"
@@ -84,7 +109,7 @@
                 android:padding="10dp" />
 
             <RelativeLayout
-                android:id="@+id/dateSection"
+                android:id="@+id/AddDateSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etQuantity"
@@ -96,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginEnd="50dp"
+                    android:layout_toStartOf="@id/datePickImageView"
                     android:background="@drawable/background_editext"
                     android:focusable="false"
                     android:hint="Expiry date"
@@ -117,9 +142,9 @@
 
             <Button
                 android:id="@+id/addImage"
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dateSection"
+                android:layout_below="@id/AddDateSection"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
@@ -133,7 +158,7 @@
 
             <Button
                 android:id="@+id/saveBtn"
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/addImage"
                 android:layout_centerHorizontal="true"

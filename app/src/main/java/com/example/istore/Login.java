@@ -102,6 +102,10 @@ public class Login extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),Storekeeper.class));
                     finish();
                 }
+                if(documentSnapshot.getString("isUser") != null){
+                    startActivity(new Intent(getApplicationContext(),UserShop.class));
+                    finish();
+                }
 
 
 

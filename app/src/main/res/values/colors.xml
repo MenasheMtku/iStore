@@ -6,7 +6,8 @@
 
 <!--     colors-->
     <color name="colorPrimaryBlue">#102FD6</color>
-    <color name="colorPrimaryDarkBlue">#5464BC</color>
+    <color name="colorPrimaryDarkLight">#5464BC</color>
+    <color name="colorPrimaryDarkBlue">#28347A</color>
     <color name="colorPrimaryLightBlue">#7E8BD3</color>
     <color name="colorAccentLight">#D0DDDC</color>
     <color name="colorAccentDarkGrey">#5C5959</color>

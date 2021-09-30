@@ -17,18 +17,16 @@
         app:titleMarginStart="35dp"
         app:titleTextColor="@android:color/white" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/searchContainerID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_margin="4dp"
-        android:gravity="center|center_horizontal"
         android:layout_below="@id/toolbar">
 
         <EditText
             android:id="@+id/searchBoxID"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_editext"
             android:drawableStart="@android:drawable/ic_menu_search"
@@ -36,22 +34,26 @@
             android:inputType="textAutoComplete"
             android:padding="8dp"
             android:textAlignment="center"
-            android:textSize="18sp"/>
+            android:layout_toStartOf="@id/flterImageViewID"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/flterImageViewID"
             android:layout_width="55dp"
             android:layout_height="55dp"
+            android:layout_alignBottom="@id/searchBoxID"
+            android:layout_alignParentEnd="true"
             android:src="@drawable/ic_filter_alt_24" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchContainerID" />
+        android:layout_below="@id/searchContainerID"
+        tools:listitem="@layout/card_item" />
 
 
 

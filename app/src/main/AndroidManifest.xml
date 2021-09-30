@@ -15,13 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".EditProduct"
+            android:exported="true" />
+        <activity
+            android:name=".UserShop"
+            android:exported="true" />
+        <activity
             android:name=".Login"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Register"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,25 +42,23 @@
         <activity
             android:name=".Storekeeper"
             android:screenOrientation="portrait" />
+<!--         <intent-filter>-->
+<!--         <action android:name="android.intent.action.MAIN" />-->
+<!--         <category android:name="android.intent.category.LAUNCHER" />-->
+<!--         </intent-filter>-->
         <activity
             android:name=".Manager"
             android:screenOrientation="portrait">
 
-            <!-- <intent-filter> -->
-
-
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-
-
-            <!-- </intent-filter> -->
+<!--             <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

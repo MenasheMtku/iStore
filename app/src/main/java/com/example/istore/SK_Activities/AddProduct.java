@@ -1,7 +1,5 @@
 package com.example.istore.SK_Activities;
 
-import static android.graphics.Color.BLUE;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -22,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +32,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.istore.Model.Categories;
-import com.example.istore.Model.Prod;
+import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -52,11 +50,21 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AddProduct extends AppCompatActivity {
+    // Keys
+      private static final String  KEY_ID         = "id";
+//    private static final String  KEY_NAME       = "prodName";
+//    private static final String  KEY_DESC       = "Description";
+//    private static final String  KEY_CATEGORY   = "Category";
+//    private static final String  KEY_PRICE      = "Price";
+//    private static final String  KEY_EXPIRY     = "LastDate";
+//    private static final String  KEY_QUANTITY   = "Quantity";
+//    private static final String  KEY_IMAGEURI   = "ImageUrl";
     // UI views
     private TextView categoryTv, activityTitle;
     private Button saveItemBtn, addImageBtn;
     private ImageView selectDate, itemImage;
-    private EditText itemName, itemQuantity, itemExpriedDate;
+    private EditText itemName, itemQuantity,itemExpriedDate;
+    private RelativeLayout addDateRL;
 
     // permission constants
     private static final int CAMERA_REQUEST_CODE = 200;
@@ -73,20 +81,14 @@ public class AddProduct extends AppCompatActivity {
     FirebaseFirestore db;
     CollectionReference dbReference;
     private FirebaseAuth firebaseAuth;
-    // Keys
-    private static final String  KEY_ID = "id";
-    private static final String  KEY_NAME = "prodtName";
-    private static final String  KEY_CATEGORY = "prodCategory";
-    private static final String  KEY_EXPIRY = "prodExpirationDate";
-    private static final String  KEY_QUANTITY = "prodQuantity";
-    private static final String  KEY_IMAGEURI = "prodImageUrl";
+
     // Progress Dialog
     ProgressDialog pd;
     Calendar cal;
     DatePickerDialog datePicker;
     String pId, pName, pQuantity,pExpiry;
 
-    Prod prod;
+    ProdModel prod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,7 @@ public class AddProduct extends AppCompatActivity {
         dbReference = db.collection("Products");
         firebaseAuth = FirebaseAuth.getInstance();
         // init model
-        prod = new Prod();
+        prod = new ProdModel();
         // init ui views
         activityTitle = (TextView)findViewById(R.id.activityTitleTV);
         itemImage = (ImageView) findViewById(R.id.imageViewCart);
@@ -106,38 +108,17 @@ public class AddProduct extends AppCompatActivity {
         itemName = (EditText) findViewById(R.id.etName);
         itemQuantity = (EditText) findViewById(R.id.etQuantity);
         itemExpriedDate = (EditText) findViewById(R.id.etExpiredDate);
+        addDateRL = (RelativeLayout) findViewById(R.id.AddDateSection);
         categoryTv = (TextView) findViewById(R.id.etCategory);
         saveItemBtn = (Button) findViewById(R.id.saveBtn);
 //        clearFields = (Button) findViewById(R.id.clearBtn);
         addImageBtn = (Button) findViewById(R.id.addImage);
+
+
         // init permission arrays
         cameraPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            //update data
-//            actionBar.setTitle("Update Product");
-            activityTitle.setText("Edit Product");
-            saveItemBtn.setText("Update");
-            saveItemBtn.setTextColor(BLUE);
-            // get data
-            pId = bundle.getString("pId");
-            pName = bundle.getString("pName");
-            pQuantity = bundle.getString("pQuantity");
-            pExpiry = bundle.getString("pExpiry");
-
-            itemName.setText(pName);
-            itemQuantity.setText(pQuantity);
-            itemExpriedDate.setText(pExpiry);
-
-        }
-        else{
-            // new data
-            saveItemBtn.setText("Save");
-            //saveItem.setTextColor(GREEN);
-
-        }
         pd = new ProgressDialog(this);
 
         categoryTv.setOnClickListener(new View.OnClickListener() {
@@ -147,12 +128,14 @@ public class AddProduct extends AppCompatActivity {
                 categoryDialog();
             }
         });
+
         addImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showImagePickDialog();        
             }
         });
+
         //choose date
         selectDate.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -193,28 +176,8 @@ public class AddProduct extends AppCompatActivity {
         saveItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Bundle bundle1  = getIntent().getExtras();
-                if (bundle1 != null){
-                    //updating
-                    String id = pId;
-                    String name = itemName.getText().toString().trim();
-                    String category = categoryTv.getText().toString().trim();
-                    String quantity  = itemQuantity.getText().toString().trim();
-                    String expiry  = itemExpriedDate.getText().toString().trim();
-
-
-                    //  funct call update data
-                    editData(id, name,category,quantity,expiry);
-
-                }
-                else{
-                    // Add New
-                    // input data
                     inputData();
-
                 }
-            }
         });
 
     }
@@ -240,7 +203,7 @@ public class AddProduct extends AppCompatActivity {
             return;
         }
         // upload product to firstore
-        uploadData(prodNmae, prodCategory ,prodQuantity, prodExpiary);
+        uploadData(prodNmae,prodCategory ,prodQuantity, prodExpiary);
     }
 
     private void categoryDialog() {
@@ -251,6 +214,14 @@ public class AddProduct extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //get picked category
                         String category = Categories.productCategories[i];
+
+                        if(category != "Food" && category != "Beverages"){
+
+                            addDateRL.setVisibility(View.GONE);
+                        }
+                        else{
+                            addDateRL.setVisibility(View.VISIBLE);
+                        }
 
                         // set picked Category
                         categoryTv.setText(category);
@@ -395,8 +366,9 @@ public class AddProduct extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void uploadData(String name, String category, String qty, String expiry) {
-        pd.setTitle("Adding To Firebase...");
+
+    private void uploadData(String name,String category, String qty, String expiry) {
+        pd.setTitle("Adding To FireStore...");
         pd.show();
 
         final String timestamp = ""+System.currentTimeMillis();
@@ -406,12 +378,14 @@ public class AddProduct extends AppCompatActivity {
             String id = UUID.randomUUID().toString(); // random id to each data to be stored
 
             Map<String, Object> hashMap = new HashMap<>();
-            hashMap.put(KEY_ID,id);
-            hashMap.put(KEY_NAME, name);
-            hashMap.put(KEY_CATEGORY, category);
-            hashMap.put(KEY_QUANTITY, ""+qty);
-            hashMap.put(KEY_EXPIRY, ""+expiry);
-            hashMap.put(KEY_IMAGEURI, ""); //no image --> set empty
+            hashMap.put("id",id);
+            hashMap.put("name", name);
+            hashMap.put("price", "");
+            hashMap.put("description", "");
+            hashMap.put("category", category);
+            hashMap.put("quantity", ""+qty);
+            hashMap.put("expiry", ""+expiry);
+            hashMap.put("imageUrl", ""); //no image --> set empty
             hashMap.put("timeStamp", timestamp); // date and time when uploaded
 
             // Add this data
@@ -423,7 +397,7 @@ public class AddProduct extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             pd.dismiss();
                             clearData();
-                            Toast.makeText(AddProduct.this, "Product Upload Succeed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProduct.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -438,100 +412,104 @@ public class AddProduct extends AppCompatActivity {
             // upload with image
             // -1- upload image to storage
             // -2- name and path of image to be uploaded
-            String filePathAndName = "product_images/" + ""+timestamp;
+            String filePathAndName = "product_images/" + ""+KEY_ID;
 
-           StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
-           storageReference.putFile(image_uri)
-                   .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                       @Override
-                       public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+            storageReference.putFile(image_uri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // upload image
-                           Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                           while(!uriTask.isSuccessful());
-                           Uri downloadImageUri = uriTask.getResult();
-                           String imageUrl = downloadImageUri.toString();
+                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                            while(!uriTask.isSuccessful());
+                            Uri downloadImageUri = uriTask.getResult();
+                            String imageUrl = downloadImageUri.toString();
 
-                           if(uriTask.isSuccessful()){
-                               // url of image received
-                               Log.i("message", ""+ downloadImageUri);
-                               String id = UUID.randomUUID().toString(); // random id to each data to be stored
+                            if(uriTask.isSuccessful()){
+                                // url of image received
+                                Log.i("message", ""+ downloadImageUri);
+                                String id = UUID.randomUUID().toString(); // random id to each data to be stored
 
-                               Map<String, Object> hashMap = new HashMap<>();
-                               hashMap.put(KEY_ID,""+id);
-                               hashMap.put(KEY_NAME, name);
-                               hashMap.put(KEY_CATEGORY, category);
-                               hashMap.put(KEY_QUANTITY, ""+qty);
-                               hashMap.put(KEY_EXPIRY, ""+expiry);
-                               hashMap.put(KEY_IMAGEURI, imageUrl);
-                               hashMap.put("TimeStamp", timestamp); // date and time when item uploaded/edited
+                                Map<String, Object> hashMap = new HashMap<>();
+                                hashMap.put(KEY_ID,""+id);
+                                hashMap.put("name", name);
+                                hashMap.put("price", "");
+                                hashMap.put("description", "");
+                                hashMap.put("category", category);
+                                hashMap.put("quantity", ""+qty);
+                                hashMap.put("expiry", ""+expiry);
+                                hashMap.put("imageUrl", imageUrl);
+                                hashMap.put("timeStamp", timestamp); // date and time when item uploaded/edited
 
-                               db.collection("Products")
-                                       .document(id)
-                                       .set(hashMap)
-                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                           @Override
-                                           public void onComplete(@NonNull Task<Void> task) {
-                                               pd.dismiss();
-                                               clearData();
-                                               Toast.makeText(AddProduct.this, "Product Upload Succeed", Toast.LENGTH_SHORT).show();
-                                           }
-                                       })
-                                       .addOnFailureListener(new OnFailureListener() {
-                                           @Override
-                                           public void onFailure(@NonNull Exception e) {
-                                               pd.dismiss();
-                                               Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                           }
-                                       });
-                           }
-                       }
-                   })
-                   .addOnFailureListener(new OnFailureListener() {
-                       @Override
-                       public void onFailure(@NonNull Exception e) {
+                                db.collection("Products")
+                                        .document(id)
+                                        .set(hashMap)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                pd.dismiss();
+                                                clearData();
+                                                Toast.makeText(AddProduct.this,
+                                                        "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                pd.dismiss();
+                                                Toast.makeText(AddProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
                             pd.dismiss();
-                           Toast.makeText(AddProduct.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                       }
-                   });
+                            Toast.makeText(AddProduct.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
 
         }
 
 
     }
-
-
-    private void editData(String id, String name,String categrory, String quantity, String expiry) {
-        pd.setTitle("Updating Data...");
-        pd.show();
-        final String timestamp = ""+System.currentTimeMillis();
-        db.collection("Products").document(id)
-                .update(KEY_NAME, name,KEY_CATEGORY,categrory, KEY_EXPIRY,expiry,KEY_QUANTITY,quantity)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                       pd.dismiss();
-
-                        Toast.makeText(AddProduct.this, "Updated...", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { 
-                        pd.dismiss();
-                        Toast.makeText(AddProduct.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
-
     private void clearData() {
         itemName.setText("");
+//        itemPrice.setText("");
         categoryTv.setText("Category");
         itemQuantity.setText("");
         itemExpriedDate.setText("");
-        itemImage.setImageResource(R.drawable.ic__add_new_prod);
+        itemImage.setImageResource(R.drawable.ic_outline_prod_image_24);
         image_uri = null;
     }
+
+//    private void editData(String id, String name,String categrory, String quantity, String expiry,String price) {
+//        pd.setTitle("Updating Data...");
+//        pd.show();
+//        final String timestamp = ""+System.currentTimeMillis();
+//        db.collection("Products").document(id)
+//                .update(KEY_NAME, name,KEY_PRICE ,price,
+//                        KEY_CATEGORY,categrory,KEY_QUANTITY,quantity,
+//                        KEY_EXPIRY,expiry,"TimeStamp",timestamp)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        pd.dismiss();
+//                        clearData();
+//                        Toast.makeText(AddProduct.this, "Updated!", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        pd.dismiss();
+//                        Toast.makeText(AddProduct.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//    }
 
 }
