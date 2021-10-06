@@ -31,7 +31,7 @@ public class Register extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore mFirestore;
-//    CollectionReference usersCollecRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +49,14 @@ public class Register extends AppCompatActivity {
         // firestore and auth init
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
-//        usersCollecRef = mFirestore.collection("Users");
+
 
 
         goToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),Login.class));
-//                finish();
+                finish();
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -119,5 +119,12 @@ public class Register extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
     }
 }

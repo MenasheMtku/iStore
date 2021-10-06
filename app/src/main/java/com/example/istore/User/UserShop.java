@@ -1,7 +1,8 @@
-package com.example.istore;
+package com.example.istore.User;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,44 +13,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.istore.Adapter.ClientShopAdapter;
 import com.example.istore.Adapter.UserShopAdapter;
-import com.example.istore.Adapter.ViewStockAdapter;
+import com.example.istore.Login;
 import com.example.istore.Model.Categories;
 import com.example.istore.Model.ProdModel;
+import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class UserShop extends AppCompatActivity {
 
-    // Keys
-    private static final String KEY_ID       = "id";
-    private static final String KEY_NAME     = "prodtName";
-    private static final String KEY_DESK     = "prodtDescription";
-    private static final String KEY_PRICE    = "prodPrice";
-    private static final String KEY_CATEGORY = "prodCategory";
-    private static final String KEY_QUANTITY = "prodQuantity";
-    private static final String KEY_IMAGEURI = "prodImageUrl";
-    private static final String KEY_EXPIRY   = "prodExpirationDate";
+//    // Keys
+//    private static final String KEY_ID       = "id";
+//    private static final String KEY_NAME     = "prodtName";
+//    private static final String KEY_DESK     = "prodtDescription";
+//    private static final String KEY_PRICE    = "prodPrice";
+//    private static final String KEY_CATEGORY = "prodCategory";
+//    private static final String KEY_QUANTITY = "prodQuantity";
+//    private static final String KEY_IMAGEURI = "prodImageUrl";
+//    private static final String KEY_EXPIRY   = "prodExpirationDate";
 
     private TextView pageTitle , helloUserTv ,categorySelected;
     private ImageButton logoutUser, viewCart;
@@ -58,6 +53,7 @@ public class UserShop extends AppCompatActivity {
     private RecyclerView shopRV;
     RecyclerView.LayoutManager layoutManager;
 
+    Toolbar toolbar;
 
     // db declaration
     FirebaseAuth mAuth;
@@ -79,13 +75,17 @@ public class UserShop extends AppCompatActivity {
 
 
         // UI init
-        pageTitle = findViewById(R.id.userShopTV);
-        helloUserTv = findViewById(R.id.userNameTV);
-        logoutUser = findViewById(R.id.logoutIV);
-        viewCart = findViewById(R.id.cartIV);
+        toolbar = findViewById(R.id.shopToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+//        pageTitle = findViewById(R.id.userShopTV);
+//        helloUserTv = findViewById(R.id.userNameTV);
+//        logoutUser = findViewById(R.id.logoutIV);
+//        viewCart = findViewById(R.id.cartIV);
         searchProducts = findViewById(R.id.searchBoxET);
         categorySelected = findViewById(R.id.filteredProductTV);
-        filterProducts = findViewById(R.id.flterProdIV);
+//        filterProducts = findViewById(R.id.flterProdIV);
         shopRV = findViewById(R.id.shopProdListRV);
 
         // fireBase init
@@ -103,48 +103,48 @@ public class UserShop extends AppCompatActivity {
 
         loadStore();
 
-        logoutUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String uid =  FirebaseAuth.getInstance().getUid();
-                Toast.makeText(getApplicationContext(), ""+uid, Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-
-                startActivity(new Intent(getApplicationContext(),Login.class));
-                finish();
-
-            }
-        });
+//        logoutUser.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                String uid =  FirebaseAuth.getInstance().getUid();
+//                Toast.makeText(getApplicationContext(), ""+uid, Toast.LENGTH_SHORT).show();
+//                FirebaseAuth.getInstance().signOut();
+//
+//                startActivity(new Intent(getApplicationContext(),Login.class));
+//                finish();
+//
+//            }
+//        });
 
         // filter product
-        filterProducts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(UserShop.this);
-                builder.setTitle("Display By Category")
-                        .setItems(Categories.productCategoriesFilter, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String selected = Categories.productCategoriesFilter[i];
-                                if(selected.equals("All")){
-//                                    loadStore();
-//                                    categorySelected.setText(selected);
-                                    Query query = prodReff.orderBy("name", Query.Direction.ASCENDING);
-
-                                    FirestoreRecyclerOptions<ProdModel> options = new FirestoreRecyclerOptions.Builder<ProdModel>()
-                                            .setQuery(query,ProdModel.class)
-                                            .build();
-                                    shopAdapter.updateOptions(options);
-                                }
-                                else{
-                                    // load filterd data
-                                    filterShopByCategory(selected);
-                                }
-                            }
-                        }).show();
-            }
-        });
+//        filterProducts.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(UserShop.this);
+//                builder.setTitle("Display By Category")
+//                        .setItems(Categories.productCategoriesFilter, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                String selected = Categories.productCategoriesFilter[i];
+//                                if(selected.equals("All")){
+////                                    loadStore();
+////                                    categorySelected.setText(selected);
+//                                    Query query = prodReff.orderBy("name", Query.Direction.ASCENDING);
+//
+//                                    FirestoreRecyclerOptions<ProdModel> options = new FirestoreRecyclerOptions.Builder<ProdModel>()
+//                                            .setQuery(query,ProdModel.class)
+//                                            .build();
+//                                    shopAdapter.updateOptions(options);
+//                                }
+//                                else{
+//                                    // load filterd data
+//                                    filterShopByCategory(selected);
+//                                }
+//                            }
+//                        }).show();
+//            }
+//        });
 
         // search product
         searchProducts.addTextChangedListener(new TextWatcher() {
@@ -186,6 +186,7 @@ public class UserShop extends AppCompatActivity {
 
     private void filterShopByCategory(String selected) {
 
+        categorySelected.setText(selected);
         Query query;
         query = prodReff.whereEqualTo("category", selected)
                 .orderBy("name",Query.Direction.ASCENDING);
@@ -296,35 +297,112 @@ public class UserShop extends AppCompatActivity {
 
         shopAdapter.startListening();
 
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        String currentId = user.getUid();
-
-        DocumentReference  reference;
-        db  = FirebaseFirestore.getInstance();
-        reference = db.collection("Users").document(currentId);
-
-        reference.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                        if(task.getResult().exists()) {
-
-                            String userName = task.getResult().getString("fullName");
-                            helloUserTv.setText("Wellcome "+userName);
-
-                        }
-                        else{
-                            startActivity(new Intent(getApplicationContext(),Login.class));
-                        }
-                    }
-                });
+//        FirebaseUser user = mAuth.getCurrentUser();
+//
+//        String currentId = user.getUid();
+//
+//        DocumentReference  reference;
+//        db  = FirebaseFirestore.getInstance();
+//        reference = db.collection("Users").document(currentId);
+//
+//        reference.get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//
+//                        if(task.getResult().exists()) {
+//
+//                            String userName = task.getResult().getString("fullName");
+//                            helloUserTv.setText("Wellcome "+userName);
+//
+//                        }
+//                        else{
+//                            startActivity(new Intent(getApplicationContext(),Login.class));
+//                        }
+//                    }
+//                });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         shopAdapter.stopListening();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main_client,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.cartTb) {
+            // go to user cart
+            startActivity(new Intent(UserShop.this, UserCart.class));
+        }
+        else if (id == R.id.categoryTb) {
+            // display products by category
+            android.app.AlertDialog.Builder builder = new AlertDialog.Builder(UserShop.this);
+            builder.setTitle("Display By Category")
+                    .setItems(Categories.productCategoriesFilter, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String selected = Categories.productCategoriesFilter[i];
+                            if(selected.equals("All")){
+
+                                categorySelected.setText(selected);
+                                Query query = prodReff.orderBy("name", Query.Direction.ASCENDING);
+
+                                FirestoreRecyclerOptions<ProdModel> options = new FirestoreRecyclerOptions.Builder<ProdModel>()
+                                        .setQuery(query,ProdModel.class)
+                                        .build();
+                                shopAdapter.updateOptions(options);
+                            }
+                            else{
+                                // load filterd data
+                                filterShopByCategory(selected);
+                            }
+                        }
+                    }).show();
+
+        }
+        else if (id == R.id.logoutTb) {
+            // logout current user
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(UserShop.this);
+            builder.setTitle("Sign out");
+            // Add the buttons
+            builder.setMessage("Would you like to leave ?")
+                    .setCancelable(false);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    // User clicked OK button
+                    mAuth.signOut();
+                    startActivity(new Intent(UserShop.this, Login.class));
+                    finish();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    // User cancelled the dialog
+                    dialog.dismiss();
+
+                }
+            });
+            // Create the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
     }
 }

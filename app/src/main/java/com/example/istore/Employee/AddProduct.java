@@ -1,4 +1,4 @@
-package com.example.istore.SK_Activities;
+package com.example.istore.Employee;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -38,6 +39,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,6 +51,8 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddProduct extends AppCompatActivity {
     // Keys
@@ -77,6 +82,7 @@ public class AddProduct extends AppCompatActivity {
     private String [] storagePermissions;
     // image picked URI
     private Uri image_uri;
+
     // Fireestore instance
     FirebaseFirestore db;
     CollectionReference dbReference;
@@ -101,8 +107,10 @@ public class AddProduct extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         // init model
         prod = new ProdModel();
+
+
         // init ui views
-        activityTitle = (TextView)findViewById(R.id.activityTitleTV);
+//        activityTitle = (TextView)findViewById(R.id.activityTitleTV);
         itemImage = (ImageView) findViewById(R.id.imageViewCart);
         selectDate = (ImageView) findViewById(R.id.datePickImageView);
         itemName = (EditText) findViewById(R.id.etName);
@@ -181,6 +189,7 @@ public class AddProduct extends AppCompatActivity {
         });
 
     }
+
     private String prodNmae, prodCategory,prodQuantity,prodExpiary;
     private void inputData() {
         // input data

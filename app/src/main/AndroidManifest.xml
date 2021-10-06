@@ -13,18 +13,31 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_store_foreground"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".EditProduct"
+            android:name=".Manager.OrderToStock"
             android:exported="true" />
         <activity
-            android:name=".UserShop"
+            android:name=".Manager.CustomerOrders"
+            android:exported="true" />
+        <activity
+            android:name=".Employee.ViewStorage"
+            android:exported="true" />
+        <activity
+            android:name=".Employee.ExpiredProduct"
+            android:exported="true" />
+        <activity
+            android:name=".User.UserCart"
+            android:exported="true" />
+        <activity
+            android:name=".Manager.EditProduct"
+            android:exported="true"
+            android:parentActivityName=".Manager.Viewstock"/>
+        <activity
+            android:name=".User.UserShop"
             android:exported="true" />
         <activity
             android:name=".Login"
-            android:exported="true" />
-        <activity
-            android:name=".Register"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,32 +46,51 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Viewstock"
-            android:screenOrientation="portrait" />
-        <activity android:name=".SK_Activities.sMreport" />
+            android:name=".Register"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
-            android:name=".SK_Activities.AddProduct"
+            android:name=".Manager.Viewstock"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Storekeeper"
+            android:name=".Employee.AddProduct"
             android:screenOrientation="portrait" />
-<!--         <intent-filter>-->
-<!--         <action android:name="android.intent.action.MAIN" />-->
-<!--         <category android:name="android.intent.category.LAUNCHER" />-->
-<!--         </intent-filter>-->
         <activity
-            android:name=".Manager"
+            android:name=".Employee.Storekeeper"
+            android:screenOrientation="portrait" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <activity
+            android:name=".Manager.Manager"
             android:screenOrientation="portrait">
 
-<!--             <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait">
+
+            <!-- android:theme="@style/AppTheme.NoActionBar" > -->
+
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
     </application>
 
 </manifest>

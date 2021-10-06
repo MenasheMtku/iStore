@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.istore.EditProduct;
+import com.example.istore.Manager.EditProduct;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -77,7 +77,7 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
     public ProdHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_item, parent, false);
+                .inflate(R.layout.manger_stock_row, parent, false);
 
         return new ProdHolder(v);
     }

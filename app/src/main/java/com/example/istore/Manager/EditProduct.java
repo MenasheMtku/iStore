@@ -1,9 +1,10 @@
-package com.example.istore;
+package com.example.istore.Manager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.istore.Model.Categories;
+import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,6 +50,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class EditProduct extends AppCompatActivity {
@@ -61,6 +64,7 @@ public class EditProduct extends AppCompatActivity {
 //    private static final String  KEY_QUANTITY   = "Quantity";
 //    private static final String  KEY_IMAGEURI   = "ImageUrl";
     // UI views
+    Toolbar toolbar;
     private TextView itemcategory;
     private ImageButton gobackBtn;
     private Button updatetemBtn, addImageBtn;
@@ -95,12 +99,16 @@ public class EditProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
+
+        toolbar = findViewById(R.id.editProductTb);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // init firestore
         db = FirebaseFirestore.getInstance();
         dbReference = db.collection("Products");
         firebaseAuth = FirebaseAuth.getInstance();
         // init ui views
-        gobackBtn = findViewById(R.id.backButton);
+//        gobackBtn = findViewById(R.id.backButton);
         itemImage = (ImageView) findViewById(R.id.imageEditIv);
         selectDate = (ImageView) findViewById(R.id.datePickImageView);
         itemName = (EditText) findViewById(R.id.etName);
@@ -127,13 +135,13 @@ public class EditProduct extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        gobackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(EditProduct.this,Viewstock.class));
-                finish();
-            }
-        });
+//        gobackBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(EditProduct.this, Viewstock.class));
+//                finish();
+//            }
+//        });
         itemcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

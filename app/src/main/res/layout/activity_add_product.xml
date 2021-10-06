@@ -4,54 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SK_Activities.AddProduct"
+    tools:context=".Employee.AddProduct"
     android:orientation="vertical">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/rounded_title_shape">
-
-            <TextView
-                android:id="@+id/activityTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="10dp"
-                android:text="Add Product"
-                android:textSize="25dp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-        </RelativeLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/serchStorageTb"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#fff"
+        app:logo="@drawable/store_k_toolbar_icon"
+        app:title="Add Producs"
+        app:titleMarginStart="35dp" />
 
         <RelativeLayout
+            android:id="@+id/imageRL"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp">
+            android:layout_height="150dp"
+            android:background="#fff">
 
             <ImageView
                 android:id="@+id/imageViewCart"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_outline_prod_image_24" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="5dp">
+
 
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageViewCart"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/background_editext"
                 android:hint="Product Name"
                 android:inputType="text"
                 android:minHeight="48dp"
-                android:padding="10dp" />
+                android:padding="10dp"
+                tools:ignore="NotSibling" />
 
 
 <!--            <Spinner-->
@@ -70,8 +71,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/background_editext"
-                android:drawableEnd="@drawable/ic_down_arrow_24"
+                android:drawableStart="@drawable/ic_down_arrow_24"
                 android:hint="Category"
                 android:inputType="textCapSentences|textMultiLine"
                 android:minHeight="48dp"
@@ -102,7 +102,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/background_editext"
                 android:hint="Quantity"
                 android:inputType="number"
                 android:minHeight="48dp"
@@ -122,7 +121,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_toStartOf="@id/datePickImageView"
-                    android:background="@drawable/background_editext"
                     android:focusable="false"
                     android:hint="Expiry date"
                     android:inputType="date"
@@ -154,7 +152,7 @@
                 android:padding="10dp"
                 android:text="Add Image"
                 android:textAllCaps="false"
-                android:textSize="20dp" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/saveBtn"
@@ -169,8 +167,7 @@
                 android:padding="10dp"
                 android:text="Save Item"
                 android:textAllCaps="false"
-                android:textColor="#111"
-                android:textSize="20dp" />
+                android:textSize="18sp"/>
 
             <!--            <Button-->
             <!--                android:id="@+id/clearBtn"-->
@@ -184,7 +181,10 @@
             <!--                android:textAllCaps="false"-->
             <!--                android:textColor="#111"-->
             <!--                android:textSize="20dp" />-->
+
+
         </RelativeLayout>
+
 
 
 </LinearLayout>

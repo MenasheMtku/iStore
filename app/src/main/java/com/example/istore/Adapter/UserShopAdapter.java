@@ -36,7 +36,7 @@ public class UserShopAdapter extends RecyclerView.Adapter<UserShopAdapter.UserPr
     public UserProduct onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View iteView;
-        iteView = LayoutInflater.from(context).inflate(R.layout.shop_card, parent, false);
+        iteView = LayoutInflater.from(context).inflate(R.layout.shop_row, parent, false);
 
         return new UserProduct(iteView);
     }

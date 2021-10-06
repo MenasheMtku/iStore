@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.istore.Employee.Storekeeper;
+import com.example.istore.Manager.Manager;
+import com.example.istore.User.UserShop;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -20,6 +23,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
+
+//    private static final String TAG = "Login";
+//    int AUTHUI_REQUEST_CODE = 1111;
 
     EditText email,password;
     Button loginBtn,gotoRegister;
@@ -37,12 +43,15 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
         // UI init
-        email = findViewById(R.id.loginEmail);
         password = findViewById(R.id.loginPassword);
+        email = findViewById(R.id.loginEmail);
         loginBtn = findViewById(R.id.loginBtn);
         gotoRegister = findViewById(R.id.gotoRegister);
 
-
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            startActivity(new Intent(this,MainActivity.class));
+            this.finish();
+        }
         gotoRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +93,57 @@ public class Login extends AppCompatActivity {
 
     }
 
+//    public void handleLoginRegister(View view){
+//
+//        List<AuthUI.IdpConfig> providers = Arrays.asList(
+//                new AuthUI.IdpConfig.EmailBuilder().build(),
+//                new AuthUI.IdpConfig.PhoneBuilder().build(),
+//                new AuthUI.IdpConfig.GoogleBuilder().build());
+//
+//        Intent intent = AuthUI.getInstance()
+//                .createSignInIntentBuilder()
+//                .setAvailableProviders(providers)
+//                .setLogo(R.drawable.choices)
+//                .setTheme(R.style.AppTheme)
+//                .setAlwaysShowSignInMethodScreen(true)
+//                .build();
+//
+//        startActivityForResult(intent,AUTHUI_REQUEST_CODE);
+//    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == AUTHUI_REQUEST_CODE){
+//            if(resultCode == RESULT_OK){
+//                // user logged in or new user has registered
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                Log.d(TAG, "onActivityResult: "+user.getEmail());
+//                if(user.getMetadata().getCreationTimestamp() == user.getMetadata().getLastSignInTimestamp()){
+//                    Toast.makeText(this, "Welcome new user" , Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+//                    Toast.makeText(this, "Welcome back" , Toast.LENGTH_SHORT).show();
+//                }
+//
+//                Intent intent = new Intent(this,MainActivity.class);
+//                startActivity(intent);
+//                this.finish();
+//            }
+//            else{
+//                // Signing in failed
+//                IdpResponse response = IdpResponse.fromResultIntent(data);
+//                if(response == null){
+//                    Log.d(TAG, "onActivityResult: the user has canceled the sign in request");
+//                }
+//                else {
+//                    Log.e(TAG, "onActivityResult: ",response.getError() );
+//                }
+//            }
+//        }
+//    }
+
     private void checkUserAccessLevel(String uid) {
 
         DocumentReference df  = mFirestore.collection("Users").document(uid);
@@ -95,15 +155,15 @@ public class Login extends AppCompatActivity {
                 Log.d("Doc Info", "onSuccess: "+ documentSnapshot.getData());
 
                 if(documentSnapshot.getString("isAdmin") != null){
-                    startActivity(new Intent(getApplicationContext(),Manager.class));
+                    startActivity(new Intent(getApplicationContext(), Manager.class));
                     finish();
                 }
                 if(documentSnapshot.getString("isEmp") != null){
-                    startActivity(new Intent(getApplicationContext(),Storekeeper.class));
+                    startActivity(new Intent(getApplicationContext(), Storekeeper.class));
                     finish();
                 }
                 if(documentSnapshot.getString("isUser") != null){
-                    startActivity(new Intent(getApplicationContext(),UserShop.class));
+                    startActivity(new Intent(getApplicationContext(), UserShop.class));
                     finish();
                 }
 

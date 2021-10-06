@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //
 //    }
-//
-//
-//    public void showMessage(String title, String Message) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setCancelable(true);
-//        builder.setTitle(title);
-//        builder.setMessage(Message);
-//        builder.show();
-//    }
+
+
+    public void showMessage(String title, String Message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
+    }
 
 }

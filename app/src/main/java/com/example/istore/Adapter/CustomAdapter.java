@@ -19,7 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.istore.EditProduct;
+import com.example.istore.Manager.EditProduct;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,7 +59,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate Layout
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_item, parent, false);
+                .inflate(R.layout.manger_stock_row, parent, false);
 
         CustomViewHolder customViewHolder = new CustomViewHolder(v);
 
