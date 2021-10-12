@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.istore.Model.Categories;
 import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,30 +47,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProduct extends AppCompatActivity {
     // Keys
-    private static final String  KEY_ID         = "id";
-//    private static final String  KEY_NAME       = "prodName";
-//    private static final String  KEY_DESC       = "Description";
-//    private static final String  KEY_CATEGORY   = "Category";
-//    private static final String  KEY_PRICE      = "Price";
-//    private static final String  KEY_EXPIRY     = "LastDate";
-//    private static final String  KEY_QUANTITY   = "Quantity";
-//    private static final String  KEY_IMAGEURI   = "ImageUrl";
+    private static final String  KEY_ID  = "id";
     // UI views
     Toolbar toolbar;
     private TextView itemcategory;
-    private ImageButton gobackBtn;
-    private Button updatetemBtn, addImageBtn;
-    private ImageView selectDate, itemImage;
-    private EditText itemName, itemQuantity, itemPrice,itemExpriedDate , itemDesc;
+    private ImageButton  changeImage;
+    private Button updatetemBtn;
+    private ImageView selectDate;
+    private CircleImageView itemImage;
+    private EditText itemName, itemQuantity,
+                     itemPrice,itemExpriedDate , itemDesc;
     private RelativeLayout editDateRL;
 
     private  String productId;
@@ -103,13 +99,22 @@ public class EditProduct extends AppCompatActivity {
         toolbar = findViewById(R.id.editProductTb);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+
+            }
+        });
+
         // init firestore
         db = FirebaseFirestore.getInstance();
         dbReference = db.collection("Products");
         firebaseAuth = FirebaseAuth.getInstance();
         // init ui views
 //        gobackBtn = findViewById(R.id.backButton);
-        itemImage = (ImageView) findViewById(R.id.imageEditIv);
+        changeImage = (ImageButton) findViewById(R.id.changeImageButton);
+        itemImage = (CircleImageView) findViewById(R.id.imageEditIv);
         selectDate = (ImageView) findViewById(R.id.datePickImageView);
         itemName = (EditText) findViewById(R.id.etName);
         itemQuantity = (EditText) findViewById(R.id.etQuantity);
@@ -118,7 +123,7 @@ public class EditProduct extends AppCompatActivity {
         itemcategory = (TextView) findViewById(R.id.etCategory);
         itemDesc = (EditText) findViewById(R.id.etDescription);
         updatetemBtn = (Button) findViewById(R.id.updateBtn);
-        addImageBtn = (Button) findViewById(R.id.addImage);
+//        addImageBtn = (Button) findViewById(R.id.addImage);
         editDateRL = findViewById(R.id.dateSection);
 
         // get product id from intent(CustomAdapter)
@@ -138,7 +143,7 @@ public class EditProduct extends AppCompatActivity {
 //        gobackBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                startActivity(new Intent(EditProduct.this, Viewstock.class));
+//                startActivity(new Intent(EditProduct.this, ViewStock.class));
 //                finish();
 //            }
 //        });
@@ -149,7 +154,7 @@ public class EditProduct extends AppCompatActivity {
                 categoryDialog();
             }
         });
-        addImageBtn.setOnClickListener(new View.OnClickListener() {
+        changeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showImagePickDialog();
@@ -221,6 +226,12 @@ public class EditProduct extends AppCompatActivity {
                 String productImageURL = task.getResult().getString("imageUrl");
                 String timeStamp = task.getResult().getString("timeStamp");
 
+                Log.i("TAG", "onComplete: \n" + productImageURL +"\n"
+                                                        + productName+"\n"
+                                                        + productExpiry+"\n"
+                                                        + productPrice+"\n"
+                                                        + productCategory+"\n");
+
                 //set data to views
 //                timeStampImageStorage = timeStamp;
                 itemName.setText(productName);
@@ -229,9 +240,13 @@ public class EditProduct extends AppCompatActivity {
                 itemPrice.setText(productPrice);
                 itemQuantity.setText(productQuantity);
                 itemExpriedDate.setText(productExpiry);
+                itemImage.setImageURI(Uri.parse(productImageURL));
 
                 try {
-                    Picasso.get().load(productImageURL).placeholder(R.drawable.ic_outline_no_image_24).into(itemImage);
+                    Glide.with(getApplicationContext()).
+                            load(productImageURL)
+                            .placeholder(R.drawable.ic_outline_no_image_24).
+                            into(itemImage);
                 }
                 catch (Exception e){
                     itemImage.setImageResource(R.drawable.ic_outline_no_image_24);
@@ -280,6 +295,7 @@ public class EditProduct extends AppCompatActivity {
         prodExpire      = itemExpriedDate.getText().toString().trim();
         prodDescription = itemDesc.getText().toString().trim();
 
+
         // validate
         if(TextUtils.isEmpty(prodName)){
             Toast.makeText(this,
@@ -308,8 +324,8 @@ public class EditProduct extends AppCompatActivity {
 
         final String timestamp = ""+System.currentTimeMillis();
         if(image_uri == null){
-            // upload without photo
 
+            // upload without new photo
             Map<String, Object> hashMap = new HashMap<>();
 
             hashMap.put("name", prodName);
@@ -426,7 +442,7 @@ public class EditProduct extends AppCompatActivity {
         itemImage.setImageResource(R.drawable.ic_outline_prod_image_24);
         image_uri = null;
 
-        startActivity(new Intent(EditProduct.this,Viewstock.class));
+        startActivity(new Intent(EditProduct.this, ViewStock.class));
         finish();
     }
 

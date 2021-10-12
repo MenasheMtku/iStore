@@ -20,7 +20,7 @@
                 android:layout_width="100dp"
                 android:layout_height="120dp"
                 android:padding="2dp"
-                android:rotation="90"
+
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_baseline_add_cart_blue_24" />
 

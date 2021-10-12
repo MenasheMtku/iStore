@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,182 +9,137 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/serchStorageTb"
+        android:id="@+id/addToStorageTb"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:logo="@drawable/store_k_toolbar_icon"
         app:title="Add Producs"
         app:titleMarginStart="35dp" />
 
-        <RelativeLayout
-            android:id="@+id/imageRL"
+
+    <ImageView
+        android:id="@+id/prodImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_outline_prod_image_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addToStorageTb"
+        android:contentDescription="TODO" />
+
+    <ImageButton
+        android:id="@+id/addImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/prodImageView"
+        app:layout_constraintStart_toEndOf="@id/prodImageView"
+        app:srcCompat="@drawable/ic_baseline_add_a_photo_24"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prodImageView"
+        app:layout_constraintWidth_percent=".9"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etName"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="#fff">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/custom_edittext"
+            android:hint="Product Name"
+            android:inputType="text"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/etCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etName"
+            android:drawableEnd="@drawable/ic_down_arrow_24"
+            android:hint="Category"
+            android:textSize="18sp"
+            android:inputType="textCapSentences|textMultiLine"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/custom_edittext"/>
+
+        <EditText
+            android:id="@+id/etQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etCategory"
+            android:hint="Quantity"
+            android:inputType="number"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/custom_edittext"/>
+
+        <RelativeLayout
+            android:id="@+id/AddDateSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etQuantity"
+            android:background="@drawable/custom_edittext"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etExpiredDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/datePickImageView"
+                android:focusable="false"
+                android:hint="Expiry date"
+                android:inputType="date"
+                android:textSize="18sp" />
 
             <ImageView
-                android:id="@+id/imageViewCart"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_outline_prod_image_24" />
+                android:id="@+id/datePickImageView"
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_alignBottom="@id/etExpiredDate"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic__date_range" />
 
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="5dp">
+    </RelativeLayout>
 
 
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:hint="Product Name"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:padding="10dp"
-                tools:ignore="NotSibling" />
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:padding="10dp"
+        android:text="Save Item"
+        android:theme="@style/loginbtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout2" />
 
-
-<!--            <Spinner-->
-<!--                android:id="@+id/category_sp"-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_below="@id/etName"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:spinnerMode="dropdown" />-->
-            <TextView
-                android:id="@+id/etCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etName"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:drawableStart="@drawable/ic_down_arrow_24"
-                android:hint="Category"
-                android:inputType="textCapSentences|textMultiLine"
-                android:minHeight="48dp"
-                android:padding="10dp"
-                android:textSize="18sp" />
-
-<!--            <EditText-->
-<!--                android:id="@+id/etPric"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@id/etCategory"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:layout_marginBottom="5dp"-->
-<!--                android:background="@drawable/background_editext"-->
-<!--                android:hint="Price Per Unit"-->
-<!--                android:inputType="number"-->
-<!--                android:minHeight="48dp"-->
-<!--                android:padding="10dp" />-->
-
-            <EditText
-                android:id="@+id/etQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etCategory"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:hint="Quantity"
-                android:inputType="number"
-                android:minHeight="48dp"
-                android:padding="10dp" />
-
-            <RelativeLayout
-                android:id="@+id/AddDateSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/etQuantity"
-                android:paddingTop="5dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/etExpiredDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_toStartOf="@id/datePickImageView"
-                    android:focusable="false"
-                    android:hint="Expiry date"
-                    android:inputType="date"
-                    android:minHeight="48dp"
-                    android:padding="10dp" />
-
-                <ImageView
-                    android:id="@+id/datePickImageView"
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_alignBottom="@id/etExpiredDate"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic__date_range" />
-
-            </RelativeLayout>
-
-
-            <Button
-                android:id="@+id/addImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/AddDateSection"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:padding="10dp"
-                android:text="Add Image"
-                android:textAllCaps="false"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/saveBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/addImage"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:padding="10dp"
-                android:text="Save Item"
-                android:textAllCaps="false"
-                android:textSize="18sp"/>
-
-            <!--            <Button-->
-            <!--                android:id="@+id/clearBtn"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_below="@id/saveBtn"-->
-            <!--                android:layout_gravity="center"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                android:background="@drawable/custome_card"-->
-            <!--                android:text="C l e a r"-->
-            <!--                android:textAllCaps="false"-->
-            <!--                android:textColor="#111"-->
-            <!--                android:textSize="20dp" />-->
-
-
-        </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
-</LinearLayout>
+
+
+
+

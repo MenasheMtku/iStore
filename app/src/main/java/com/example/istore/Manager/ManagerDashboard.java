@@ -8,7 +8,6 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,13 +15,11 @@ import android.widget.GridLayout;
 import android.widget.Toast;
 
 import com.example.istore.Employee.ExpiredProduct;
-import com.example.istore.Employee.Storekeeper;
-import com.example.istore.Employee.ViewStorage;
 import com.example.istore.Login;
 import com.example.istore.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Manager extends AppCompatActivity {
+public class ManagerDashboard extends AppCompatActivity {
 
     GridLayout mainGrid;
     FirebaseAuth mAuth;
@@ -56,7 +53,7 @@ public class Manager extends AppCompatActivity {
                         startActivity(p);
 
                     } else if (finalIi == 1) {
-                        Intent p = new Intent(getApplicationContext(), Viewstock.class);
+                        Intent p = new Intent(getApplicationContext(), StorageManager.class);
                         startActivity(p);
 
                     } else if (finalIi == 2) {
@@ -70,7 +67,7 @@ public class Manager extends AppCompatActivity {
 
                     }
                     else {
-                        Toast.makeText(Manager.this, "Please set activity for this ITEM",
+                        Toast.makeText(ManagerDashboard.this, "Please set activity for this ITEM",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -100,7 +97,7 @@ public class Manager extends AppCompatActivity {
 
     private void logOutDialog() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(Manager.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ManagerDashboard.this);
         builder.setTitle("Sign out")
                 .setCancelable(true);
         builder.setMessage("Are you sure ?");
@@ -123,7 +120,7 @@ public class Manager extends AppCompatActivity {
     private void logoutAdmin() {
 
         mAuth.signOut();
-        startActivity(new Intent(Manager.this, Login.class));
+        startActivity(new Intent(ManagerDashboard.this, Login.class));
         finish();
     }
 

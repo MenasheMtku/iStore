@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //                        if(task.isSuccessful()){
 //
-//                            startActivity(new Intent(getApplicationContext(), Manager.class));
+//                            startActivity(new Intent(getApplicationContext(), ManagerDashboard.class));
 //                        }
 //                        else{
 //                            Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 //            etName.setText("");
 //            etPass.setText("");
 //
-//            Intent p = new Intent(this, Manager.class);
+//            Intent p = new Intent(this, ManagerDashboard.class);
 //            startActivity(p);
 //        }
 //        //else if(etName.getText().toString().equals("worker") && etPass.getText().toString().equals("222")){
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 //            etName.setText("");
 //            etPass.setText("");
 //
-//            Intent p = new Intent(this, Storekeeper.class);
+//            Intent p = new Intent(this, EmployeeDashboard.class);
 //            startActivity(p);
 //
 //        } else {

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.istore.Manager.EditProduct;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
@@ -27,7 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.pExp.setText(prod.getExpiry());
         holder.pQty.setText(prod.getQuantity());
         try {
-            Picasso.get().load(prod.getImageUrl())
+            Glide.with(context).load(prod.getImageUrl())
                     .placeholder(R.drawable.ic_outline_no_image_24)
                     .into(holder.pImageView);
         }
@@ -170,7 +171,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String name = prod.getName();
 //        String price = prod.getPrice();
         String cat = prod.getCategory();
-        String qty = prod.getQuantity();
+//        String qty = prod.getQuantity();
         String exp = prod.getExpiry();
         String desc = prod.getDescription();
 
@@ -184,7 +185,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
 
         try {
-            Picasso.get().load(prod.getImageUrl())
+            Glide.with(context).load(prod.getImageUrl())
                     .placeholder(R.drawable.ic_outline_no_image_24).into(prodImage);
         }
         catch (Exception e){

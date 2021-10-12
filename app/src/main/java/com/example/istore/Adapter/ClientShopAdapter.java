@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -25,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -58,8 +58,10 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
         holder.shopProdDesc.setText(model.getDescription());
         holder.shopProdPrice.setText(model.getPrice());
         try {
-            Picasso.get().load(model.getImageUrl())
-                    .placeholder(R.drawable.ic_outline_no_image_24).into(holder.shopProdImage);
+            Glide.with(context)
+                    .load(model.getImageUrl())
+                    .placeholder(R.drawable.ic_outline_no_image_24)
+                    .into(holder.shopProdImage);
         }
         catch (Exception e){
             holder.shopProdImage.setImageResource(R.drawable.ic_outline_no_image_24);
@@ -109,8 +111,10 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
 //        prodQuantity.setText(model.getQuantity());
 
         try {
-            Picasso.get().load(model.getImageUrl())
-                    .placeholder(R.drawable.ic_outline_no_image_24).into(prodImage);
+            Glide.with(context).
+                    load(model.getImageUrl())
+                    .placeholder(R.drawable.ic_outline_no_image_24)
+                    .into(prodImage);
         }
         catch (Exception e){
             prodImage.setImageResource(R.drawable.ic_outline_no_image_24);

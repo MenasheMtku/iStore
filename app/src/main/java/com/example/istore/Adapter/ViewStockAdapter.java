@@ -3,6 +3,7 @@ package com.example.istore.Adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,26 +11,37 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.istore.Manager.EditProduct;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewStockAdapter.ProdHolder> {
 
     final private Context context;
     private static final String TAG1 = "onBind";
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
 
-//    Viewstock viewstock;
+//    ViewStock viewstock;
     public ViewStockAdapter(@NonNull FirestoreRecyclerOptions<ProdModel> options, Context context) {
         super(options);
 
@@ -42,27 +54,40 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
         holder.pName.setText(model.getName());
         holder.pCategory.setText(model.getCategory());
         holder.pDesc.setText(model.getDescription());
-        holder.pExp.setText(model.getExpiry());
         holder.pQty.setText(model.getQuantity());
+//        try {
+//            // method to check Expiration date
+//            checkProdExpiry(holder ,model);
+//
+//        } catch (Exception e){
+//
+//            holder.pExp.setText(model.getExpiry());
+//        }
+        holder.pExp.setText(model.getExpiry());
+
         try {
-            Picasso.get().load(model.getImageUrl())
-                    .placeholder(R.drawable.ic_outline_no_image_24)
-                    .into(holder.pImageView);
+            Glide.with(context).
+                    load(model.getImageUrl()).
+                    placeholder(R.drawable.ic_outline_no_image_24).
+                    into(holder.pImageView);
         }
         catch (Exception e){
             holder.pImageView.
                     setImageResource(R.drawable.ic_outline_no_image_24);
 
         }
-        Log.i(TAG1, "Get Strings before set on holder: \n"+
-                "UUID: "+ model.getId() +"\n"+
-                "Name: "+ model.getName() +"\n"+
-                "Price: "+ model.getPrice() +"\n"+
-                "Desc: "+ model.getDescription() +"\n"+
-                "Quantity: "+ model.getQuantity() +"\n"+
-                "LastDate: "+ model.getExpiry() +"\n"+
-                "Category: "+ model.getCategory()+"\n"+
-                "ImageAddress: "+ model.getImageUrl() +"\n");
+        // print holder item
+//        Log.i(TAG1, "Get Strings before set on holder: \n"+
+//                "UUID: "+ model.getId() +"\n"+
+//                "Name: "+ model.getName() +"\n"+
+//                "Price: "+ model.getPrice() +"\n"+
+//                "Desc: "+ model.getDescription() +"\n"+
+//                "Quantity: "+ model.getQuantity() +"  "+ model.getQuantity().length()+"\n"+
+//                "LastDate: "+ model.getExpiry() +"\n"+
+//                "Category: "+ model.getCategory()+"\n"+
+//                "ImageAddress: "+ model.getImageUrl() +"\n");
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +97,40 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
         });
 
     }
+
+    private void checkProdExpiry(ProdHolder holder, ProdModel model) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            int twoWeeks = 14;
+            int alreadyExpired = 0;
+
+            LocalDate todayDate = LocalDate.now();
+            String today = todayDate.format(formatter);
+            String futreDate = String.format(model.getExpiry(), formatter);
+
+            LocalDate date_1 = LocalDate.parse(today,formatter);
+            LocalDate date_2 = LocalDate.parse(futreDate,formatter);
+
+            // calculate difference between the dates
+            long diff = ChronoUnit.DAYS.between(date_1,date_2);
+
+            if(diff <= alreadyExpired){
+
+                holder.pExp.setText("Expired");
+                holder.pExp.setTextColor(Color.RED);
+
+            }else if( diff <= twoWeeks){
+
+                holder.pExp.setText("Expired in "+ diff +" days");
+                holder.pExp.setTextColor(Color.BLUE);
+
+            } else{
+
+                holder.pExp.setText(model.getExpiry());
+            }
+
+    }
+
     @NonNull
     @Override
     public ProdHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,7 +143,6 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
 
     private void detailsBottomSheet(ProdModel model) {
 
-//        Viewstock viewstock;
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.bs_product_details_admin,null);
@@ -119,11 +177,11 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
         prodExpiryDate.setText("Last Date: "+model.getExpiry());
         prodPrice.setText("Price: "+model.getPrice());
         prodQuantity.setText("Quantity: "+model.getQuantity());
-
-
         try {
-            Picasso.get().load(model.getImageUrl())
-                    .placeholder(R.drawable.ic_outline_no_image_24).into(prodImage);
+            Glide.with(context)
+                    .load(model.getImageUrl())
+                    .placeholder(R.drawable.ic_outline_no_image_24)
+                    .into(prodImage);
         }
         catch (Exception e){
             prodImage.setImageResource(R.drawable.ic_outline_no_image_24);
@@ -165,6 +223,7 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 deleteProduct(uID);
+
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -181,15 +240,22 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
     }
 
 
-
-
     private void deleteProduct(String uID) {
 
+        firestore.collection("Products")
+                .document(uID)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(context, "Item Deleted", Toast.LENGTH_LONG).show();
+                    }
+                });
 
     }
 
 
-    class ProdHolder extends RecyclerView.ViewHolder {
+     class ProdHolder extends RecyclerView.ViewHolder {
 
         private ImageView pImageView;
         private TextView pName, pQty, pExp, pCategory, pDesc;

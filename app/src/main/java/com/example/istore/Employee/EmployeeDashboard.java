@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +17,9 @@ import android.widget.Toast;
 
 import com.example.istore.Login;
 import com.example.istore.R;
-import com.example.istore.User.UserShop;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Storekeeper extends AppCompatActivity {
+public class EmployeeDashboard extends AppCompatActivity {
 
     Toolbar toolbar;
     FirebaseAuth mAuth;
@@ -54,28 +52,28 @@ public class Storekeeper extends AppCompatActivity {
 
                     if (finalI == 0)//open addNewProd activity
                     {
-                        Intent p = new Intent(Storekeeper.this, AddProduct.class);
+                        Intent p = new Intent(EmployeeDashboard.this, AddProduct.class);
                         startActivity(p);
                         Log.i("message:", "AddNewProd selected");
                     } else if (finalI == 1)
                         //open search activity
                     {
-                        Intent p = new Intent(Storekeeper.this, ViewStorage.class);
+                        Intent p = new Intent(EmployeeDashboard.this, ViewStorage.class);
                         startActivity(p);
                         Log.i("message:", "ViewStoreage selected");
                     } else if (finalI == 2)
                         //open mReport activity
                     {
-                        Intent p = new Intent(Storekeeper.this, ExpiredProduct.class);
+                        Intent p = new Intent(EmployeeDashboard.this, ExpiredProduct.class);
                         startActivity(p);
                         Log.i("message:", "addNewProd success");
                     } else if (finalI == 3)//open Ventor_return activity
                     {
-//                        Intent p = new Intent(Storekeeper.this, sVendorReturn.class);
+//                        Intent p = new Intent(EmployeeDashboard.this, sVendorReturn.class);
 //                        startActivity(p);
 //                        Log.i("message:", "addNewProd success");
                     } else {
-                        Toast.makeText(Storekeeper.this, "Please set activity for this ITEM",
+                        Toast.makeText(EmployeeDashboard.this, "Please set activity for this ITEM",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -126,7 +124,7 @@ public class Storekeeper extends AppCompatActivity {
     private void logoutEmployee() {
 
         mAuth.signOut();
-        startActivity(new Intent(Storekeeper.this, Login.class));
+        startActivity(new Intent(EmployeeDashboard.this, Login.class));
         finish();
     }
 

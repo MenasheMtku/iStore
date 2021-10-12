@@ -23,4 +23,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="prod_name">Product Name</string>
     <string name="product_quantity">#1</string>
+    <string name="all_products">All Products</string>
+    <string name="expired_items">Expired Items</string>
 </resources>

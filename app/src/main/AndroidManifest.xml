@@ -9,11 +9,28 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_store_foreground"
+        android:icon="@mipmap/ic_store_foreground"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_store_foreground"
-        android:supportsRtl="true"
+        android:roundIcon="@mipmap/ic_store_foreground"
+        android:supportsRtl="false"
         android:theme="@style/Theme.MyApplication">
+        <activity
+            android:name=".Manager.StorageManager"
+            android:exported="true" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+            <!-- <intent-filter> -->
+
+
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+
+
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name=".Manager.OrderToStock"
             android:exported="true" />
@@ -31,19 +48,18 @@
             android:exported="true" />
         <activity
             android:name=".Manager.EditProduct"
-            android:exported="true"
-            android:parentActivityName=".Manager.Viewstock"/>
+            android:exported="true" />
         <activity
             android:name=".User.UserShop"
             android:exported="true" />
         <activity
             android:name=".Login"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".Register"
@@ -57,25 +73,26 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Manager.Viewstock"
+            android:name=".Manager.ViewStock"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Employee.AddProduct"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Employee.Storekeeper"
+            android:name=".Employee.EmployeeDashboard"
             android:screenOrientation="portrait" /> <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
         <!-- </intent-filter> -->
         <activity
-            android:name=".Manager.Manager"
+            android:name=".Manager.ManagerDashboard"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"

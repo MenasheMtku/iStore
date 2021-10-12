@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,28 +48,19 @@ public class UserShopAdapter extends RecyclerView.Adapter<UserShopAdapter.UserPr
         // get data
         ProdModel prod = shopProdList.get(position);
 
-//        String prodName = prod.getName();
-//        String prodPrice = prod.getPrice();
-//        String prodDescription = prod.getDescription();
-//        String prodImage = prod.getImageUrl();
-
-        // TODO: 22-Sep-21  add  prodCategory & prodExpiry & quantity to shop cart
-//        String prodCategory = prod.getCatName();
-//        String prodExpiry = prod.getExpiry();
-//        String prodCurrentQuantity = prod.getQuantity();
-
         holder.shopProdName.setText(prod.getName());
         holder.shopProdDesc.setText(prod.getDescription());
         holder.shopProdPrice.setText(prod.getPrice());
         try {
-            Picasso.get().load(prod.getImageUrl())
-                    .placeholder(R.drawable.ic_outline_no_image_24).into(holder.shopProdImage);
+            Glide.with(context)
+                    .load(prod.getImageUrl())
+                    .placeholder(R.drawable.ic_outline_no_image_24)
+                    .into(holder.shopProdImage);
         }
         catch (Exception e){
             holder.shopProdImage.setImageResource(R.drawable.ic_outline_no_image_24);
 
         }
-
 
         holder.shopAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override

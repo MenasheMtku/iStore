@@ -34,10 +34,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_slab_medium"
+                android:fontFamily="@font/roboto_slab_regular"
                 android:text="Current Date: "
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -61,10 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_slab_medium"
+                android:fontFamily="@font/roboto_slab_regular"
                 android:text="Current Time: "
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -88,10 +88,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_slab_medium"
+                android:fontFamily="@font/roboto_slab_regular"
                 android:text="Product Name"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -115,17 +115,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_slab_medium"
+                android:fontFamily="@font/roboto_slab_regular"
                 android:text="Product Price"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,17 +141,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_slab_medium"
+                android:fontFamily="@font/roboto_slab_semi_bold"
                 android:text="Total Quantity"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -167,10 +167,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_slab_medium"
+                android:fontFamily="@font/roboto_slab_bold"
                 android:text="Total price "
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

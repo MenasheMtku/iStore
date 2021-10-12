@@ -15,13 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.istore.Manager.EditProduct;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.squareup.picasso.Picasso;
+
 
 public class ViewStorageEmpAdapter extends FirestoreRecyclerAdapter<ProdModel, ViewStorageEmpAdapter.ProdHolder> {
 
@@ -42,7 +43,8 @@ public class ViewStorageEmpAdapter extends FirestoreRecyclerAdapter<ProdModel, V
         holder.eDesc.setText(model.getDescription());
         holder.eQty.setText(model.getQuantity());
         try {
-            Picasso.get().load(model.getImageUrl())
+            Glide.with(context).
+                    load(model.getImageUrl())
                     .placeholder(R.drawable.ic_outline_no_image_24)
                     .into(holder.eImageView);
         }

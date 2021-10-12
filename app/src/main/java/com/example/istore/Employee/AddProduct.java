@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -57,17 +59,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AddProduct extends AppCompatActivity {
     // Keys
       private static final String  KEY_ID         = "id";
-//    private static final String  KEY_NAME       = "prodName";
-//    private static final String  KEY_DESC       = "Description";
-//    private static final String  KEY_CATEGORY   = "Category";
-//    private static final String  KEY_PRICE      = "Price";
-//    private static final String  KEY_EXPIRY     = "LastDate";
-//    private static final String  KEY_QUANTITY   = "Quantity";
-//    private static final String  KEY_IMAGEURI   = "ImageUrl";
     // UI views
     private TextView categoryTv, activityTitle;
-    private Button saveItemBtn, addImageBtn;
-    private ImageView selectDate, itemImage;
+    private Button saveItemBtn;
+    private ImageView selectDate;
+    private ImageView itemImage;
+    private ImageButton addImage;
     private EditText itemName, itemQuantity,itemExpriedDate;
     private RelativeLayout addDateRL;
 
@@ -95,12 +92,22 @@ public class AddProduct extends AppCompatActivity {
     String pId, pName, pQuantity,pExpiry;
 
     ProdModel prod;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
+        toolbar = findViewById(R.id.addToStorageTb);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         // init firestore
         db = FirebaseFirestore.getInstance();
         dbReference = db.collection("Products");
@@ -111,7 +118,8 @@ public class AddProduct extends AppCompatActivity {
 
         // init ui views
 //        activityTitle = (TextView)findViewById(R.id.activityTitleTV);
-        itemImage = (ImageView) findViewById(R.id.imageViewCart);
+        itemImage = (ImageView) findViewById(R.id.prodImageView);
+        addImage = (ImageButton) findViewById(R.id.addImageButton);
         selectDate = (ImageView) findViewById(R.id.datePickImageView);
         itemName = (EditText) findViewById(R.id.etName);
         itemQuantity = (EditText) findViewById(R.id.etQuantity);
@@ -120,7 +128,7 @@ public class AddProduct extends AppCompatActivity {
         categoryTv = (TextView) findViewById(R.id.etCategory);
         saveItemBtn = (Button) findViewById(R.id.saveBtn);
 //        clearFields = (Button) findViewById(R.id.clearBtn);
-        addImageBtn = (Button) findViewById(R.id.addImage);
+//        addImageBtn = (Button) findViewById(R.id.addImage);
 
 
         // init permission arrays
@@ -137,7 +145,7 @@ public class AddProduct extends AppCompatActivity {
             }
         });
 
-        addImageBtn.setOnClickListener(new View.OnClickListener() {
+        addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showImagePickDialog();        
@@ -381,10 +389,9 @@ public class AddProduct extends AppCompatActivity {
         pd.show();
 
         final String timestamp = ""+System.currentTimeMillis();
+        final String id = UUID.randomUUID().toString(); // random id to each data to be stored
         if(image_uri == null) {
             // upload without image
-
-            String id = UUID.randomUUID().toString(); // random id to each data to be stored
 
             Map<String, Object> hashMap = new HashMap<>();
             hashMap.put("id",id);
@@ -421,7 +428,7 @@ public class AddProduct extends AppCompatActivity {
             // upload with image
             // -1- upload image to storage
             // -2- name and path of image to be uploaded
-            String filePathAndName = "product_images/" + ""+KEY_ID;
+            String filePathAndName = "product_images/" + ""+id;
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
             storageReference.putFile(image_uri)
@@ -437,7 +444,7 @@ public class AddProduct extends AppCompatActivity {
                             if(uriTask.isSuccessful()){
                                 // url of image received
                                 Log.i("message", ""+ downloadImageUri);
-                                String id = UUID.randomUUID().toString(); // random id to each data to be stored
+//                                String id = UUID.randomUUID().toString(); // random id to each data to be stored
 
                                 Map<String, Object> hashMap = new HashMap<>();
                                 hashMap.put(KEY_ID,""+id);

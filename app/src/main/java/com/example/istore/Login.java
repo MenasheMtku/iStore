@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.istore.Employee.Storekeeper;
-import com.example.istore.Manager.Manager;
+import com.example.istore.Employee.EmployeeDashboard;
+import com.example.istore.Manager.ManagerDashboard;
 import com.example.istore.User.UserShop;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -155,11 +155,11 @@ public class Login extends AppCompatActivity {
                 Log.d("Doc Info", "onSuccess: "+ documentSnapshot.getData());
 
                 if(documentSnapshot.getString("isAdmin") != null){
-                    startActivity(new Intent(getApplicationContext(), Manager.class));
+                    startActivity(new Intent(getApplicationContext(), ManagerDashboard.class));
                     finish();
                 }
                 if(documentSnapshot.getString("isEmp") != null){
-                    startActivity(new Intent(getApplicationContext(), Storekeeper.class));
+                    startActivity(new Intent(getApplicationContext(), EmployeeDashboard.class));
                     finish();
                 }
                 if(documentSnapshot.getString("isUser") != null){

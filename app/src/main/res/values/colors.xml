@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-
-<!--     colors-->
-    <color name="colorPrimaryBlue">#102FD6</color>
-    <color name="colorPrimaryDarkLight">#5464BC</color>
-    <color name="colorPrimaryDarkBlue">#28347A</color>
-    <color name="colorPrimaryLightBlue">#7E8BD3</color>
-    <color name="colorAccentLight">#D0DDDC</color>
-    <color name="colorAccentDarkGrey">#5C5959</color>
-
     // fireBase UI colors
     <color name="material_green_50">#E8F5E9</color>
     <color name="material_green_500">#4CAF50</color>
@@ -25,4 +13,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!--     colors-->
+    <color name="colorPrimaryBlue">#102FD6</color>
+    <color name="colorPrimaryDarkLight">#5464BC</color>
+    <color name="colorPrimaryDarkBlue">#28347A</color>
+    <color name="colorPrimaryLightBlue">#7E8BD3</color>
+    <color name="colorAccentLight">#D0DDDC</color>
+    <color name="colorAccentDarkGrey">#5C5959</color>
 </resources>

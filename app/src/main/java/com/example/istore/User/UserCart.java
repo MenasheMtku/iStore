@@ -59,7 +59,13 @@ public class UserCart extends AppCompatActivity {
 
         toolbar = findViewById(R.id.userCartId);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         // get total amount for user cart
         LocalBroadcastManager.getInstance(this)

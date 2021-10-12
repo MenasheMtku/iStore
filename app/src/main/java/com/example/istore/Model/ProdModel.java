@@ -5,14 +5,8 @@ import androidx.annotation.Nullable;
 
 public class ProdModel {
 
-    private String id,
-                    name,
-                    price,
-                    quantity,
-                    expiry,
-                    imageUrl,
-                    category,
-                    description;
+    private String id, name, price, expiry, imageUrl, category, description;
+            String quantity;
 
     public ProdModel() {
     }
@@ -94,18 +88,18 @@ public class ProdModel {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    @Override
-    public String toString() {
-        return new StringBuilder().append("ProdModel{")
-                                    .append('\n'+"id = ' ").append(id).append('\n')
-                                    .append("name = ' ").append(name).append('\'')
-                                    .append("quantity = '").append(quantity).append('\'')
-                                    .append("expiry = '").append(expiry).append('\n')
-                                    .append("imageUrl = '").append(imageUrl).append('\n')
-                                    .append("catName = '").append(category).append('\n')
-                                    .append("price = '").append(price).append('\n')
-                                    .append("description = '").append(description)
-                                    .append('\n').append('}').toString();
-    }
+//    @Override
+//    public String toString() {
+//        return new StringBuilder().append("ProdModel{")
+//                                    .append('\n'+"id = ' ").append(id).append('\n')
+//                                    .append("name = ' ").append(name).append('\'')
+//                                    .append("quantity = '").append(quantity).append('\'')
+//                                    .append("expiry = '").append(expiry).append('\n')
+//                                    .append("imageUrl = '").append(imageUrl).append('\n')
+//                                    .append("catName = '").append(category).append('\n')
+//                                    .append("price = '").append(price).append('\n')
+//                                    .append("description = '").append(description)
+//                                    .append('\n').append('}').toString();
+//    }
 
 }
