@@ -25,4 +25,5 @@
     <string name="product_quantity">#1</string>
     <string name="all_products">All Products</string>
     <string name="expired_items">Expired Items</string>
+    <string name="item_category">Category</string>
 </resources>

@@ -62,8 +62,6 @@
                 android:text="Desc"
                 android:textColor="@android:color/black" />
 
-            ^
-
             <TextView
                 android:id="@+id/prodExpiryCardTV_ID"
                 android:layout_width="wrap_content"
@@ -90,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/roboto_slab_regular"
-                android:inputType="number"
+                android:inputType="text"
                 android:layout_alignBaseline="@id/inStockTv"
                 android:minWidth="48dp"
                 android:minHeight="48dp"

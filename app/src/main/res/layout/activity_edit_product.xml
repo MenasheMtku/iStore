@@ -21,7 +21,7 @@
         app:titleMarginStart="35dp" />
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/imageEditIv"
         android:layout_width="120dp"
         android:layout_height="120dp"

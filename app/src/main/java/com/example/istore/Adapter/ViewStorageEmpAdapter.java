@@ -1,27 +1,20 @@
 package com.example.istore.Adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.istore.Manager.EditProduct;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 
 public class ViewStorageEmpAdapter extends FirestoreRecyclerAdapter<ProdModel, ViewStorageEmpAdapter.ProdHolder> {
@@ -61,7 +54,7 @@ public class ViewStorageEmpAdapter extends FirestoreRecyclerAdapter<ProdModel, V
     public ProdHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.emp_view_tock_row, parent, false);
+                .inflate(R.layout.emp_view_stock_row, parent, false);
 
         return new ProdHolder(v);
     }

@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="name"
-            android:background="@drawable/round_searchview"
+            android:background="@drawable/round_search_view"
             android:drawableStart="@android:drawable/ic_menu_search"
             android:hint="Search Item"
             android:textColorHint="#626766"

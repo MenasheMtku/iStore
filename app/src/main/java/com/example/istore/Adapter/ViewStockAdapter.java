@@ -53,7 +53,7 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
 
         holder.pName.setText(model.getName());
         holder.pCategory.setText(model.getCategory());
-        holder.pDesc.setText(model.getDescription());
+//        holder.pDesc.setText(model.getDescription());
         holder.pQty.setText(model.getQuantity());
 //        try {
 //            // method to check Expiration date

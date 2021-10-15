@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.istore">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,15 +22,6 @@
             android:name=".SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-            <!-- <intent-filter> -->
-
-
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-
-
-            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".Manager.OrderToStock"
@@ -63,31 +55,15 @@
         </activity>
         <activity
             android:name=".Register"
-            android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".Manager.ViewStock"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Employee.AddProduct"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Employee.EmployeeDashboard"
-            android:screenOrientation="portrait" /> <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <activity
-            android:name=".Manager.ManagerDashboard"
-            android:screenOrientation="portrait">
+            android:exported="true"/>
+        <activity android:name=".Manager.ViewStock"
+                  android:exported="true" android:screenOrientation="portrait" />
+        <activity android:name=".Employee.AddProduct"
+                  android:screenOrientation="portrait" />
+        <activity android:name=".Employee.EmployeeDashboard"
+                  android:screenOrientation="portrait" />
+        <activity android:name=".Manager.ManagerDashboard"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,16 +74,11 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait">
 
-            <!-- android:theme="@style/AppTheme.NoActionBar" > -->
-
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"
+            tools:ignore="MissingClass" />
     </application>
 
 </manifest>

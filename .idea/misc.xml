@@ -58,15 +58,17 @@
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/activity_user_cart.xml" value="0.22" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/activity_user_shop.xml" value="0.25" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/activity_view_stock.xml" value="0.25" />
-        <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/activity_view_storage.xml" value="0.22" />
+        <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/activity_view_storage.xml" value="0.2" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/activity_viewstock.xml" value="0.25" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/bs_cart_product_detail.xml" value="0.2" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/bs_product_details_admin.xml" value="0.25" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/card_item.xml" value="0.25" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/confirmation_pop.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/empViewStock_row.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/emp_view_stock_row.xml" value="0.19083333333333333" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/emp_view_tock_row.xml" value="0.25" />
-        <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/manger_stock_row.xml" value="0.5" />
+        <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/manger_stock_col.xml" value="0.33" />
+        <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/manger_stock_row.xml" value="0.22" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/menu_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/shop_card.xml" value="0.33" />
         <entry key="..\:/Users/mmatu/AndroidStudioProjects/iStore/app/src/main/res/layout/shop_row.xml" value="0.20416666666666666" />

@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -47,12 +48,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class EditProduct extends AppCompatActivity {
     // Keys
@@ -63,9 +66,8 @@ public class EditProduct extends AppCompatActivity {
     private ImageButton  changeImage;
     private Button updatetemBtn;
     private ImageView selectDate;
-    private CircleImageView itemImage;
-    private EditText itemName, itemQuantity,
-                     itemPrice,itemExpriedDate , itemDesc;
+    private ImageView itemImage;
+    private EditText itemName, itemQuantity, itemPrice,itemExpriedDate , itemDesc;
     private RelativeLayout editDateRL;
 
     private  String productId;
@@ -114,7 +116,7 @@ public class EditProduct extends AppCompatActivity {
         // init ui views
 //        gobackBtn = findViewById(R.id.backButton);
         changeImage = (ImageButton) findViewById(R.id.changeImageButton);
-        itemImage = (CircleImageView) findViewById(R.id.imageEditIv);
+        itemImage = (ImageView) findViewById(R.id.imageEditIv);
         selectDate = (ImageView) findViewById(R.id.datePickImageView);
         itemName = (EditText) findViewById(R.id.etName);
         itemQuantity = (EditText) findViewById(R.id.etQuantity);
@@ -172,6 +174,7 @@ public class EditProduct extends AppCompatActivity {
 
 
                 datePicker = new DatePickerDialog(EditProduct.this, new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onDateSet(DatePicker datePicker, int mYear, int mMonth, int mDay) {
 
@@ -324,7 +327,6 @@ public class EditProduct extends AppCompatActivity {
 
         final String timestamp = ""+System.currentTimeMillis();
         if(image_uri == null){
-
             // upload without new photo
             Map<String, Object> hashMap = new HashMap<>();
 
@@ -376,7 +378,7 @@ public class EditProduct extends AppCompatActivity {
                             Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                             while(!uriTask.isSuccessful());
                             Uri downloadImageUri = uriTask.getResult();
-                            String imageUrl = downloadImageUri.toString();
+                            final String imageUrl = downloadImageUri.toString();
 
                             if(uriTask.isSuccessful()){
                                 // url of image received
@@ -457,22 +459,24 @@ public class EditProduct extends AppCompatActivity {
 
                         if(i ==0){
                             // camera clicked
-                            if(checkCameraePermission()){
-                                // permission granted
-                                pickFromCamera();
-                            }else{
-                                // // permission NOT granted
+                            if(!checkCameraePermission()){
+
+                                // permission NOT granted
                                 requestCameraPermission();
+                            }else{
+                                // permission granted
+//                                pickFromCamera();
+                                pickFromGallery();
                             }
                         }
-                        else{
+                        else if (i == 1){
                             // gallery clicked
-                            if(checkStoragePermission()){
-                                // permission granted
-                                pickFromGallery();
-                            }else{
+                            if(!checkStoragePermission()){
                                 // // permission NOT granted
                                 requestStoragePermission();
+                            }else{
+                                // permission granted
+                                pickFromGallery();
                             }
                         }
                     }
@@ -480,10 +484,12 @@ public class EditProduct extends AppCompatActivity {
     }
 
     private void pickFromGallery() {
-        // intent to pick image from gallery
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
+
+        CropImage.activity().start(this);
+//        // intent to pick image from gallery
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+//        intent.setType("image/*");
+//        startActivityForResult(intent,IMAGE_PICK_GALLERY_CODE);
     }
 
     private void pickFromCamera() {
@@ -524,7 +530,40 @@ public class EditProduct extends AppCompatActivity {
     private void requestCameraPermission(){
         ActivityCompat.requestPermissions(this,storagePermissions, CAMERA_REQUEST_CODE);
     }
+    // handle image image results
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
+        if(requestCode== CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if(resultCode ==RESULT_OK ){
+                image_uri = result.getUri();
+                Picasso.with(this)
+                        .load(image_uri)
+                        .into(itemImage);
+            }
+        }
+//        if(resultCode == RESULT_OK){
+//
+//            if(requestCode == IMAGE_PICK_GALLERY_CODE){
+//                // image picked from gallery
+//
+//                // save picked image uri
+//                image_uri = data.getData();
+//
+//                // set image
+//                itemImage.setImageURI(image_uri);
+//            }
+//            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
+//                // image picked from camera
+//
+//                itemImage.setImageURI(image_uri);
+//            }
+//        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     // handle permission results
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -537,12 +576,14 @@ public class EditProduct extends AppCompatActivity {
                     if(cameraAccepted && storageAccepted){
                         // both permission granted
                         pickFromCamera();
+
                     } else{
                         // both or one of permissions denied
                         Toast.makeText(this, "Camera and Storage permissions are required..", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
+            break;
             case STORAGE_REQUEST_CODE:{
                 if(grantResults.length > 0){
                     boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
@@ -555,31 +596,9 @@ public class EditProduct extends AppCompatActivity {
                     }
                 }
             }
+            break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    // handle image image results
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        if(resultCode == RESULT_OK){
-
-            if(requestCode == IMAGE_PICK_GALLERY_CODE){
-                // image picked from gallery
-
-                // save picked image uri
-                image_uri = data.getData();
-
-                // set image
-                itemImage.setImageURI(image_uri);
-            }
-            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
-                // image picked from camera
-
-                itemImage.setImageURI(image_uri);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }
