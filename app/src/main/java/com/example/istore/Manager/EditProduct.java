@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.istore.Employee.ViewStorage;
 import com.example.istore.Model.Categories;
 import com.example.istore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -444,7 +445,7 @@ public class EditProduct extends AppCompatActivity {
         itemImage.setImageResource(R.drawable.ic_outline_prod_image_24);
         image_uri = null;
 
-        startActivity(new Intent(EditProduct.this, ViewStock.class));
+        startActivity(new Intent(EditProduct.this, StorageManager .class));
         finish();
     }
 

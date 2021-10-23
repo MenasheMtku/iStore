@@ -1,6 +1,7 @@
-package com.example.istore.Adapter;
+package com.example.istore.Adapter.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
+import com.example.istore.User.UserAddress;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,7 +38,7 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
         final private Context context;
 
         int totalQuantity = 1;
-        int totalPrice = 0;
+        float totalPrice = 0;
 
 
     /**
@@ -151,7 +153,13 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
         buyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Buy now item was clicked", Toast.LENGTH_SHORT).show();
+                // go to address activity
+                context.startActivity(new Intent(context, UserAddress.class));
+//                Intent intent = new Intent(context, AddAddress.class);
+
+
+
+
             }
         });
 
@@ -164,13 +172,13 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
 
         Calendar calForDate = Calendar.getInstance();
 
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd MM, yyyy");
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd MMM, yyyy");
         saveCurrentDate = currentDate.format(calForDate.getTime());
 
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime = currentTime.format(calForDate.getTime());
 
-        totalPrice = Integer.parseInt(model.getPrice())*totalQuantity;
+        totalPrice = Float.parseFloat(model.getPrice())*totalQuantity;
 
         final HashMap <String, Object> cartMap = new HashMap<>();
 
@@ -181,15 +189,16 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
         cartMap.put("totalQuantity",String.valueOf(totalQuantity));
         cartMap.put("totalPrice",String.valueOf(totalPrice));
 
-        FirebaseAuth vAuth;
-        vAuth = FirebaseAuth.getInstance();
+        FirebaseAuth uAuth;
+        uAuth = FirebaseAuth.getInstance();
         // db declaration
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference cartReff = db.collection("AddToCart");
+        CollectionReference uCartReff = db.collection("Users")
+                 .document(uAuth.getCurrentUser().getUid())
+                 .collection("AddToCart");
+//        CollectionReference cartReff = db.collection("AddToCart");
 
-        cartReff.document(vAuth.getCurrentUser().getUid())
-                .collection("User")
-                .add(cartMap)
+        uCartReff.add(cartMap)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {

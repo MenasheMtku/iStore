@@ -26,4 +26,12 @@
     <string name="all_products">All Products</string>
     <string name="expired_items">Expired Items</string>
     <string name="item_category">Category</string>
+    <string name="subtotal_payment">Subtotal</string>
+    <string name="discount_payment">Discount</string>
+    <string name="shipping_payment">Shipping</string>
+    <string name="dollar_sign"> $</string>
+    <string name="comma"> ,</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
 </resources>

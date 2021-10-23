@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Employee.ViewStorage">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/serchStorageTb"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#fff"
+        app:logo="@drawable/store_k_toolbar_icon"
+        app:title="Search Storage"
+        app:titleMarginStart="35dp"
+        app:titleTextColor="@android:color/black"/>
+
+    <RelativeLayout
+        android:id="@+id/searchContainerID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/serchStorageTb"
+        android:layout_margin="4dp">
+
+        <EditText
+            android:id="@+id/searchEmpBoxID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_search_view"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:hint="Search Product"
+            android:inputType="textAutoComplete"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/empFilteredItemTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchEmpBoxID"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:text="All Products"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/productTotalTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchEmpBoxID"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:text="In Stock"
+            android:textColor="@color/black" />
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvEmpId"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchContainerID"
+        tools:listitem="@layout/emp_view_stock_row" />
+
+
+
+</RelativeLayout>

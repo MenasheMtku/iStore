@@ -1,4 +1,4 @@
-package com.example.istore.Adapter;
+package com.example.istore.Adapter.Emp;
 
 import android.content.Context;
 import android.view.LayoutInflater;

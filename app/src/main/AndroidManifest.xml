@@ -16,13 +16,21 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".User.UserPayment"
+            android:exported="false" />
+        <activity
+            android:name=".User.UserAddress"
+            android:exported="false" />
+        <activity
+            android:name=".User.AddAddress"
+            android:exported="false" />
+        <activity
             android:name=".Manager.StorageManager"
             android:exported="true" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".Manager.OrderToStock"
             android:exported="true" />
@@ -40,7 +48,7 @@
             android:exported="true" />
         <activity
             android:name=".Manager.EditProduct"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".User.UserShop"
             android:exported="true" />
@@ -55,15 +63,20 @@
         </activity>
         <activity
             android:name=".Register"
-            android:exported="true"/>
-        <activity android:name=".Manager.ViewStock"
-                  android:exported="true" android:screenOrientation="portrait" />
-        <activity android:name=".Employee.AddProduct"
-                  android:screenOrientation="portrait" />
-        <activity android:name=".Employee.EmployeeDashboard"
-                  android:screenOrientation="portrait" />
-        <activity android:name=".Manager.ManagerDashboard"
-                  android:screenOrientation="portrait">
+            android:exported="true" />
+        <activity
+            android:name=".Manager.ViewStock"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Employee.AddProduct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Employee.EmployeeDashboard"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Manager.ManagerDashboard"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,13 +85,15 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" />
 
-        </activity>
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+        <meta-data android:name="com.razorpay.ApiKey"
+            android:value=" "/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"
             tools:ignore="MissingClass" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/pImageCartDetailIV"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:padding="5dp"
+
+        android:scaleType="centerCrop" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailsCardView"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="135dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="10dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/detailsRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pNameCartDetaitTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Product Name"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/pDescCartDetaiTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/prodNameTV"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="Product Description"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/pQtyInStockCartDetailTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/prodDescriptionTV"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="Price"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+            <TextView
+                android:id="@+id/pPriceCartDetailTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/prodDescriptionTV"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="Price"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pPriceCartDetailTv"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/increamentBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_baseline_keyboard_arrow_up_24"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/pQtyCartDetailsTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"/>
+
+                <ImageButton
+                    android:id="@+id/decreamentBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/addToCartBtn"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_cart_new_prod"
+            android:text="Add to Cart"
+            android:layout_marginTop="25dp"/>
+
+        <Button
+            android:id="@+id/buyNowBtn"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15sp"
+            android:drawableLeft="@drawable/ic_outline_shopping_cart_24"
+            android:text="Buy Now" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

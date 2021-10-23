@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,7 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.istore.Adapter.ViewStockAdapter;
+import com.example.istore.Adapter.Admin.ViewStockAdapter;
 import com.example.istore.Model.Categories;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;

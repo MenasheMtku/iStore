@@ -92,6 +92,58 @@ public class Login extends AppCompatActivity {
         });
 
     }
+    private void checkUserAccessLevel(String uid) {
+
+        DocumentReference df  = mFirestore.collection("Users").document(uid);
+
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Log.d("Doc Info", "onSuccess: "+ documentSnapshot.getData());
+
+                if(documentSnapshot.getString("isAdmin") != null){
+                    startActivity(new Intent(getApplicationContext(), ManagerDashboard.class));
+                    finish();
+                }
+                if(documentSnapshot.getString("isEmp") != null){
+                    startActivity(new Intent(getApplicationContext(), EmployeeDashboard.class));
+                    finish();
+                }
+                if(documentSnapshot.getString("isUser") != null){
+                    startActivity(new Intent(getApplicationContext(), UserShop.class));
+                    finish();
+                }
+
+
+
+            }
+        });
+    }
+
+    public boolean checkField(EditText textField){
+        if(textField.getText().toString().isEmpty()){
+            textField.setError("Error");
+            valid = false;
+        }else {
+            valid = true;
+        }
+
+        return valid;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+//            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+
+            startActivity(new Intent(getApplicationContext(),UserShop.class));
+            finish();
+        }
+    }
+}
 
 //    public void handleLoginRegister(View view){
 //
@@ -143,54 +195,3 @@ public class Login extends AppCompatActivity {
 //            }
 //        }
 //    }
-
-    private void checkUserAccessLevel(String uid) {
-
-        DocumentReference df  = mFirestore.collection("Users").document(uid);
-
-        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                Log.d("Doc Info", "onSuccess: "+ documentSnapshot.getData());
-
-                if(documentSnapshot.getString("isAdmin") != null){
-                    startActivity(new Intent(getApplicationContext(), ManagerDashboard.class));
-                    finish();
-                }
-                if(documentSnapshot.getString("isEmp") != null){
-                    startActivity(new Intent(getApplicationContext(), EmployeeDashboard.class));
-                    finish();
-                }
-                if(documentSnapshot.getString("isUser") != null){
-                    startActivity(new Intent(getApplicationContext(), UserShop.class));
-                    finish();
-                }
-
-
-
-            }
-        });
-    }
-
-    public boolean checkField(EditText textField){
-        if(textField.getText().toString().isEmpty()){
-            textField.setError("Error");
-            valid = false;
-        }else {
-            valid = true;
-        }
-
-        return valid;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
-    }
-}

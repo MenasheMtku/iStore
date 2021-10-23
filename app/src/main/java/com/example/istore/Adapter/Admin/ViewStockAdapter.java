@@ -1,10 +1,10 @@
-package com.example.istore.Adapter;
+package com.example.istore.Adapter.Admin;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.istore.Manager.EditProduct;
+import com.bumptech.glide.Glide;
 import com.example.istore.Model.ProdModel;
 import com.example.istore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -38,7 +38,7 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
     final private Context context;
     private static final String TAG1 = "onBind";
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
 
 //    ViewStock viewstock;
@@ -48,6 +48,18 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
         this.context = context;
     }
 
+    @NonNull
+    @Override
+    public ProdHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.manger_stock_row, parent, false);
+
+
+
+        return new ProdHolder(v);
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull ProdHolder holder, int position, @NonNull ProdModel model) {
 
@@ -55,15 +67,16 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
         holder.pCategory.setText(model.getCategory());
 //        holder.pDesc.setText(model.getDescription());
         holder.pQty.setText(model.getQuantity());
-//        try {
-//            // method to check Expiration date
-//            checkProdExpiry(holder ,model);
-//
-//        } catch (Exception e){
-//
-//            holder.pExp.setText(model.getExpiry());
-//        }
-        holder.pExp.setText(model.getExpiry());
+        try {
+            // method to check Expiration date
+            checkProdExpiry(holder ,model);
+
+        } catch (Exception e){
+
+            holder.pExp.setText(model.getExpiry());
+            holder.pExp.setTextColor(Color.BLACK);
+        }
+//        holder.pExp.setText(model.getExpiry());
 
         try {
             Glide.with(context).
@@ -76,6 +89,13 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
                     setImageResource(R.drawable.ic_outline_no_image_24);
 
         }
+        // onClick
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailsBottomSheet(model);
+            }
+        });
         // print holder item
 //        Log.i(TAG1, "Get Strings before set on holder: \n"+
 //                "UUID: "+ model.getId() +"\n"+
@@ -86,23 +106,14 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
 //                "LastDate: "+ model.getExpiry() +"\n"+
 //                "Category: "+ model.getCategory()+"\n"+
 //                "ImageAddress: "+ model.getImageUrl() +"\n");
-
-
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                detailsBottomSheet(model);
-            }
-        });
-
     }
 
+    @SuppressLint("SetTextI18n")
     private void checkProdExpiry(ProdHolder holder, ProdModel model) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            int twoWeeks = 14;
-            int alreadyExpired = 0;
+//            int twoWeeks = 14;
+//            int alreadyExpired = 0;
 
             LocalDate todayDate = LocalDate.now();
             String today = todayDate.format(formatter);
@@ -112,34 +123,78 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
             LocalDate date_2 = LocalDate.parse(futreDate,formatter);
 
             // calculate difference between the dates
-            long diff = ChronoUnit.DAYS.between(date_1,date_2);
+            float diff = ChronoUnit.DAYS.between(date_1,date_2);
 
-            if(diff <= alreadyExpired){
+            int i = (int) diff;
 
-                holder.pExp.setText("Expired");
-                holder.pExp.setTextColor(Color.RED);
+            int myColor = Color.BLUE;
 
-            }else if( diff <= twoWeeks){
+           switch (i){
 
-                holder.pExp.setText("Expired in "+ diff +" days");
-                holder.pExp.setTextColor(Color.BLUE);
-
-            } else{
-
-                holder.pExp.setText(model.getExpiry());
-            }
+               case 0:
+                           holder.pExp.setText("Expired");
+                           holder.pExp.setTextColor(Color.RED);
+                           break;
+               case 1:
+                           holder.pExp.setText("1" + " day");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               case 2:
+                           holder.pExp.setText("2" + " days");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               case 3:
+                           holder.pExp.setText("3" + " days");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               case 4:
+                           holder.pExp.setText("4" + " days");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               case 5:
+                           holder.pExp.setText("5" + " days");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               case 6:
+                           holder.pExp.setText("6" + " days");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               case 7:
+                           holder.pExp.setText("7" + " days");
+                           holder.pExp.setTextColor(myColor);
+                           break;
+               default:
+                   // display
+                           holder.pExp.setText(model.getExpiry());
+                           holder.pExp.setTextColor(Color.BLACK);
+                           holder.notifyAll();
+           }
+//            if(diff <= 0){
+//
+//                holder.pExp.setText("Expired");
+//                holder.pExp.setTextColor(Color.RED);
+//
+//            }
+//            else if( diff <= 14){
+//
+//                if(diff == 1){
+//                    holder.pExp.setText(diff +" day");
+//                    holder.pExp.setTextColor(Color.BLUE);
+//                }
+//                else {
+//                    holder.pExp.setText(diff + " days");
+//                    holder.pExp.setTextColor(Color.BLUE);
+//                }
+//
+//            }
+//            else{
+//
+//                holder.pExp.setText(model.getExpiry());
+//            }
 
     }
 
-    @NonNull
-    @Override
-    public ProdHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.manger_stock_row, parent, false);
-
-        return new ProdHolder(v);
-    }
 
     private void detailsBottomSheet(ProdModel model) {
 
@@ -202,7 +257,7 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
             public void onClick(View view) {
                 bottomSheetDialog.dismiss();
                 // open edit product activity
-                Intent intent  = new Intent(context, EditProduct.class);
+                Intent intent  = new Intent(context,EditProduct.class);
                 intent.putExtra("productId", uID);
                 context.startActivity(intent);
 
@@ -265,7 +320,7 @@ public class ViewStockAdapter extends FirestoreRecyclerAdapter<ProdModel,ViewSto
 
             // ui init
             pName      = itemView.findViewById(R.id.prodName_ID);
-            pDesc      = itemView.findViewById(R.id.prodDescId);
+//            pDesc      = itemView.findViewById(R.id.prodDescId);
             pCategory  = itemView.findViewById(R.id.itemCategoryTV);
             pQty       = itemView.findViewById(R.id.prodQtyCardTV_ID);
             pExp       = itemView.findViewById(R.id.prodExpiryCardTV_ID);

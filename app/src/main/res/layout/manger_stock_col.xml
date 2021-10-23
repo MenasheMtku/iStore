@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#E2E4C5"
+    android:layout_margin="9dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cardImage_id"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_outline_prod_image_24"
+            app:layout_constraintBottom_toTopOf="@+id/details_constraint_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="4dp"
+            android:id="@+id/details_constraint_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/cardImage_id"
+            app:layout_constraintStart_toStartOf="@+id/cardImage_id"
+            app:layout_constraintTop_toBottomOf="@+id/cardImage_id"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/prodName_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:text="@string/prod_name"
+                android:textColor="@android:color/black" />
+
+
+            <TextView
+                android:id="@+id/itemCategoryTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/item_category"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/prodName_ID"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/prodExpiryCardTV_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_slab_semi_bold"
+                android:text="dd/MM/yyyy"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/itemCategoryTV" />
+
+
+
+            <TextView
+                android:id="@+id/inStockTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="In Stock: "
+                app:layout_constraintTop_toBottomOf="@id/prodExpiryCardTV_ID" />
+
+            <TextView
+                android:id="@+id/prodQtyCardTV_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_slab_semi_bold"
+                android:inputType="text"
+                android:text="@string/product_quantity"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/inStockTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/inStockTv"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

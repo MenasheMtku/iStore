@@ -20,8 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.istore.Adapter.ClientShopAdapter;
-import com.example.istore.Adapter.UserShopAdapter;
+import com.example.istore.Adapter.User.ClientShopAdapter;
 import com.example.istore.Login;
 import com.example.istore.Model.Categories;
 import com.example.istore.Model.ProdModel;

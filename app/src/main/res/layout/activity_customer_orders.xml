@@ -6,15 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Manager.CustomerOrders">
 
-    <TextView
-        android:layout_width="396dp"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/viewOrdersTb"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer Orders"
-        android:gravity="center"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewOrdersRv"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/viewOrdersTb" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

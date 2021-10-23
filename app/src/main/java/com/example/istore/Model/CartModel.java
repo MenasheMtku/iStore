@@ -2,17 +2,31 @@ package com.example.istore.Model;
 
 public class CartModel {
 
-    String name , date ,time,price,totalQuantity,totalPrice ;
+    String  id ,name , date ,time,price,totalQuantity,totalPrice ;
+    boolean hasPaid = false;
 
     public CartModel() {}
 
-    public CartModel(String name, String date, String time, String price, String totalQuantity, String totalPrice) {
+    public CartModel(String id,String name, String date, String time,
+                     String price, String totalQuantity, String totalPrice,
+                     boolean hasPaid) {
+        this.id = id;
         this.name = name;
         this.date = date;
         this.time = time;
         this.price = price;
         this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
+        this.hasPaid = hasPaid;
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -61,5 +75,13 @@ public class CartModel {
 
     public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public boolean isHasPaid() {
+        return hasPaid;
+    }
+
+    public void setHasPaid(boolean hasPaid) {
+        this.hasPaid = hasPaid;
     }
 }
