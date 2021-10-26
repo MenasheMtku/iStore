@@ -188,6 +188,7 @@ public class ClientShopAdapter extends FirestoreRecyclerAdapter<ProdModel,Client
         cartMap.put("price", model.getPrice());
         cartMap.put("totalQuantity",String.valueOf(totalQuantity));
         cartMap.put("totalPrice",String.valueOf(totalPrice));
+        cartMap.put("hasPaid",false);
 
         FirebaseAuth uAuth;
         uAuth = FirebaseAuth.getInstance();

@@ -34,4 +34,7 @@
     <string name="sign_in">Sign In</string>
     <string name="login">Login</string>
     <string name="create_account">Create Account</string>
+    <string name="price_quantity">Price * Quantity =</string>
+    <string name="inserted_to_cart_on">Inserted to Cart On..</string>
+    <string name="total_price">Total Price</string>
 </resources>

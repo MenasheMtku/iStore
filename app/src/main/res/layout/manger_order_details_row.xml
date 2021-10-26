@@ -16,7 +16,7 @@
             android:padding="4dp">
 
             <TextView
-                android:id="@+id/cName_ID"
+                android:id="@+id/odName_ID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -24,77 +24,56 @@
                 android:text="Name: " />
 
             <TextView
-                android:id="@+id/customer_id"
+                android:id="@+id/od_product_name_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/cName_ID"
+                android:layout_alignBaseline="@id/odName_ID"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/cName_ID"
+                android:layout_toEndOf="@id/odName_ID"
                 android:fontFamily="@font/roboto_slab_regular"
-                android:text="Customer Name"
+                android:text="Product Name"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/timeOfOreder_id"
+                android:id="@+id/od_time_insert_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/customer_id"
+                android:layout_below="@+id/od_product_name_id"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:text="Time: " />
+                android:text="Insert To Cart: " />
 
             <TextView
-                android:id="@+id/order_time"
+                android:id="@+id/od_order_time_insert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/timeOfOreder_id"
+                android:layout_alignBaseline="@id/od_time_insert_id"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/timeOfOreder_id"
-                android:text="Time Ordered"
+                android:layout_toEndOf="@id/od_time_insert_id"
+                android:text="@string/inserted_to_cart_on"
                 android:textColor="@android:color/black"
                 android:textStyle="italic" />
 
+
             <TextView
-                android:id="@+id/custAddressTv"
+                android:id="@+id/od_total_Tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/timeOfOreder_id"
+                android:layout_below="@+id/od_time_insert_id"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:text="Address: " />
+                android:text="@string/price_quantity" />
 
             <TextView
-                android:id="@+id/custAddressTv_id"
+                android:id="@+id/od_total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/custAddressTv"
+                android:layout_alignBaseline="@id/od_total_Tv"
                 android:layout_marginStart="4dp"
-                android:layout_toEndOf="@id/custAddressTv"
+                android:layout_toEndOf="@id/od_total_Tv"
                 android:fontFamily="@font/roboto_slab_regular"
-                android:maxLines="2"
-                android:text="Address"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/total_Tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/custAddressTv"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:text="Total Items: " />
-
-            <TextView
-                android:id="@+id/totalItems_ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/total_Tv"
-                android:layout_marginStart="4dp"
-                android:layout_toEndOf="@id/total_Tv"
-                android:fontFamily="@font/roboto_slab_regular"
-                android:text="Total Items"
+                android:text="@string/total_price"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 

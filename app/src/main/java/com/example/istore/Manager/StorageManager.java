@@ -39,7 +39,6 @@ public class StorageManager extends AppCompatActivity {
     TextView filteredItemName;
     ProgressDialog progressDialog;
     RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager layoutManager;
 
     List<ProdModel> prodList = new ArrayList<>();
     private ViewStockAdapter stockAdapter;
@@ -155,7 +154,9 @@ public class StorageManager extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(StorageManager.this);
         builder.setTitle("Display By Category")
                 .setItems(Categories.productCategoriesFilter, new DialogInterface.OnClickListener() {
+
                     Query query ;
+
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 

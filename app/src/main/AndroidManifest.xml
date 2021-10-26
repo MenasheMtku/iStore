@@ -16,6 +16,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".Manager.OrderDetails"
+            android:exported="false" />
+        <activity
             android:name=".User.UserPayment"
             android:exported="false" />
         <activity
@@ -30,7 +33,14 @@
         <activity
             android:name=".SplashScreen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+
+        </activity>
         <activity
             android:name=".Manager.OrderToStock"
             android:exported="true" />
@@ -48,18 +58,19 @@
             android:exported="true" />
         <activity
             android:name=".Manager.EditProduct"
-            android:exported="true"/>
+            android:exported="true"
+            tools:ignore="MissingClass" />
         <activity
             android:name=".User.UserShop"
             android:exported="true" />
         <activity
             android:name=".Login"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- </intent-filter> -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Register"
@@ -77,23 +88,21 @@
         <activity
             android:name=".Manager.ManagerDashboard"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-
-        <meta-data android:name="com.razorpay.ApiKey"
-            android:value=" "/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"
             tools:ignore="MissingClass" />
-
     </application>
 
 </manifest>

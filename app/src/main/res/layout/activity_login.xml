@@ -9,95 +9,67 @@
 
     <TextView
         android:id="@+id/loginTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/aclonica"
-        android:text="@string/login"
-        android:textColor="@color/purple_700"
-        android:textSize="38sp"
-        app:layout_constraintBottom_toTopOf="@+id/loginCardView"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/loginCardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/aclonica"
+        android:text="@string/login"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/purple_700"
+        android:textSize="38sp"
         app:layout_constraintWidth_percent=".9"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
 
-            <EditText
-                android:id="@+id/loginEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:ems="10"
-                android:background="@drawable/custom_edittext"
-                android:hint="Email Address"
-                android:inputType="textEmailAddress"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Email Address"
+        style="@style/loginRegisterEdittext"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/loginTv"
+        app:layout_constraintStart_toStartOf="@+id/loginTv"
+        app:layout_constraintTop_toBottomOf="@+id/loginTv" />
 
-            <EditText
-                android:id="@+id/loginPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:ems="10"
-                android:background="@drawable/custom_edittext"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        style="@style/loginRegisterEdittext"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/loginEmail"
+        app:layout_constraintStart_toStartOf="@+id/loginEmail"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
 
-            <Button
-                android:id="@+id/loginBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Login"
-                android:textSize="18sp"
-                android:padding="14dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
-            <Button
-                android:id="@+id/gotoRegister"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Create Account"
-                android:textSize="18sp"
-                android:padding="14dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Login"
+        style="@style/loginbtn"
+        app:layout_constraintBottom_toTopOf="@+id/gotoRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/gotoRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Create Account"
+        style="@style/loginbtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

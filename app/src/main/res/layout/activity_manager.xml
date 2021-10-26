@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:fontFamily="@font/roboto_slab_black"
+            android:fontFamily="@font/aclonica"
             android:text="DashBoard"
             android:textColor="#5064D5"
             android:textFontWeight="600"

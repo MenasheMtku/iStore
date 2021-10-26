@@ -46,6 +46,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -337,30 +338,26 @@ public class EditProduct extends AppCompatActivity {
             hashMap.put("description", prodDescription);
             hashMap.put("quantity", prodQuantity);
             hashMap.put("expiry", prodExpire);
-            hashMap.put("imageUrl", ""); //no image --> set empty
+//            hashMap.put("imageUrl", ""); //no image --> set empty
             hashMap.put("timeStamp", ""+timestamp); // date and time when uploaded
 
             // Add this data
             db.collection("Products")
                     .document(productId)
-                    .update(hashMap)
+                    .set(hashMap, SetOptions.merge())
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             progressDialog.dismiss();
                             clearData();
-                            Toast.makeText(EditProduct.this,
-                                    "Edited successfully",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProduct.this, "Edited successfully", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(EditProduct.this,
-                                    e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProduct.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }

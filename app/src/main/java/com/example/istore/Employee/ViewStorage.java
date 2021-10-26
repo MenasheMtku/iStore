@@ -56,15 +56,11 @@ public class ViewStorage extends AppCompatActivity {
             }
         });
 
-
         db = FirebaseFirestore.getInstance();
         eAuth = FirebaseAuth.getInstance();
 
         mRecyclerView = findViewById(R.id.rcvEmpId);
         searchEditText = findViewById(R.id.searchEmpBoxID);
-
-
-
 
         setUpRecyclerView();
 
